@@ -17,6 +17,7 @@ done
 
 cd bams
 mkdir dmarked
+mkdir dmarked/qc
 for bam in *.bam; do
   echo $bam
   java -jar /mnt/e/picard.jar MarkDuplicates \
@@ -27,7 +28,6 @@ done
 
 
 cd dmarked
-mkdir qc
 for bam in *.bam; do
   echo $bam
   java -jar /mnt/e/picard.jar CollectAlignmentSummaryMetrics \
