@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import numpy as np
 import pandas as pd
 pd.set_option('display.max_columns', None)
@@ -15,10 +16,10 @@ sns.set_palette(sns.color_palette(['#ce0e2d', '#005cb9', '#f5a800', '#45c2b1', '
 files = glob.glob('*alignment.tsv')
 
 
-
 samples = [i.replace('_dmarked_alignment.tsv', '') for i in files]
 print(samples)
 print('')
+
 
 
 colnames = ['metric1', 'TOTAL_READS', 'metric3', 'metric4', 'metric5', 'metric6', 'PCT_PF_READS_ALIGNED', 'metric8', 'metric9', 'metric10', 'metric11', 'metric12', 'PF_MISMATCH_RATE', 'PF_HQ_ERROR_RATE', 'PF_INDEL_RATE', 'metric16', 'metric17', 'metric18', 'metric19', 'metric20', 'metric21', 'metric22', 'PCT_CHIMERAS', 'PCT_ADAPTER', 'metric25', 'metric26', 'metric27']
@@ -54,6 +55,7 @@ print('')
 dfc.to_csv('alignment_summary.tsv', sep='\t')
 
 
+
 fig = plt.figure(figsize=(11, 7))
 ax = fig.add_subplot(1, 1, 1)
 plot = sns.barplot(x='sample', y='TOTAL_READS', hue='sample', dodge=False, data=dfc)
@@ -63,7 +65,7 @@ for lb in plot.get_xticklabels():
 
 for p in plot.patches:
     if np.isnan(p.get_height())==False:
-         plot.text(p.get_x()+p.get_width()/2, ax.get_ylim()[1]/70, '{:,.0f}'.format(p.get_height()), fontsize=10, rotation=90, ha='center', va='bottom')
+         plot.text(p.get_x()+p.get_width()/2, ax.get_ylim()[1]/5/len(samples), '{:,.0f}'.format(p.get_height()), fontsize=250/len(samples), rotation=90, ha='center', va='bottom')
 
 ax.ticklabel_format(style='plain', axis='y')
 
@@ -72,113 +74,41 @@ def commas(x, pos):
 ax.get_yaxis().set_major_formatter(plt.FuncFormatter(commas))
 
 plot.set_xlabel('')
-plot.legend_.remove()
+plot.legend(loc='center right', bbox_to_anchor=(1.3, 0.5), framealpha=1)
 
-plt.savefig('yield.png', format='png', dpi=500, bbox_inches='tight')
-
-
-fig = plt.figure(figsize=(11, 7))
-ax = fig.add_subplot(1, 1, 1)
-plot = sns.barplot(x='sample', y='PCT_PF_READS_UNALIGNED', hue='sample', dodge=False, data=dfc)
-
-for lb in plot.get_xticklabels():
-    lb.set_rotation(90)   
-
-for p in plot.patches:
-    if np.isnan(p.get_height())==False:
-         plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, '{:.2f}'.format(p.get_height()), fontsize=10, ha='center')
-
-plot.set_xlabel('')
-plot.legend_.remove()
-
-plt.savefig('unaligned.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('TOTAL_READS.png', format='png', dpi=500, bbox_inches='tight')
 
 
-fig = plt.figure(figsize=(11, 7))
-ax = fig.add_subplot(1, 1, 1)
-plot = sns.barplot(x='sample', y='PF_MISMATCH_RATE', hue='sample', dodge=False, data=dfc)
-
-for lb in plot.get_xticklabels():
-    lb.set_rotation(90)   
-
-for p in plot.patches:
-    if np.isnan(p.get_height())==False:
-         plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, '{:.2f}'.format(p.get_height()), fontsize=10, ha='center')
-
-plot.set_xlabel('')
-plot.legend_.remove()
-
-plt.savefig('mismatched.png', format='png', dpi=500, bbox_inches='tight')
-
-
-fig = plt.figure(figsize=(11, 7))
-ax = fig.add_subplot(1, 1, 1)
-plot = sns.barplot(x='sample', y='PF_HQ_ERROR_RATE', hue='sample', dodge=False, data=dfc)
-
-for lb in plot.get_xticklabels():
-    lb.set_rotation(90)   
-
-for p in plot.patches:
-    if np.isnan(p.get_height())==False:
-         plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, '{:.2f}'.format(p.get_height()), fontsize=10, ha='center')
-
-plot.set_xlabel('')
-plot.legend_.remove()
-
-plt.savefig('errors.png', format='png', dpi=500, bbox_inches='tight')
+def barplot(y):
+    fig = plt.figure(figsize=(11, 7))
+    ax = fig.add_subplot(1, 1, 1)
+    plot = sns.barplot(x='sample', y=y, hue='sample', dodge=False, data=dfc)
+    
+    for lb in plot.get_xticklabels():
+        lb.set_rotation(90)   
+    
+    for p in plot.patches:
+        if np.isnan(p.get_height())==False:
+            if p.get_height()>=1:
+                value_format = '{:#.3g}'
+            else:
+                value_format = '{:.2f}'
+            plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, value_format.format(p.get_height()), fontsize=250/len(samples), ha='center')
+    
+    ax.set_ylim(top=ax.get_ylim()[1]*(1+(0.8/len(samples))))
+    
+    plot.set_xlabel('')
+    plot.legend(loc='center right', bbox_to_anchor=(1.3, 0.5), framealpha=1)
+    
+    plt.savefig(y+'.png', format='png', dpi=500, bbox_inches='tight')
 
 
-fig = plt.figure(figsize=(11, 7))
-ax = fig.add_subplot(1, 1, 1)
-plot = sns.barplot(x='sample', y='PF_INDEL_RATE', hue='sample', dodge=False, data=dfc)
-
-for lb in plot.get_xticklabels():
-    lb.set_rotation(90)   
-
-for p in plot.patches:
-    if np.isnan(p.get_height())==False:
-         plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, '{:.2f}'.format(p.get_height()), fontsize=10, ha='center')
-
-plot.set_xlabel('')
-plot.legend_.remove()
-
-plt.savefig('indels.png', format='png', dpi=500, bbox_inches='tight')
-
-
-fig = plt.figure(figsize=(11, 7))
-ax = fig.add_subplot(1, 1, 1)
-plot = sns.barplot(x='sample', y='PCT_CHIMERAS', hue='sample', dodge=False, data=dfc)
-
-for lb in plot.get_xticklabels():
-    lb.set_rotation(90)   
-
-for p in plot.patches:
-    if np.isnan(p.get_height())==False:
-         plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, '{:.2f}'.format(p.get_height()), fontsize=10, ha='center')
-
-plot.set_xlabel('')
-plot.legend_.remove()
-
-plt.savefig('chimeras.png', format='png', dpi=500, bbox_inches='tight')
-
-
-fig = plt.figure(figsize=(11, 7))
-ax = fig.add_subplot(1, 1, 1)
-plot = sns.barplot(x='sample', y='PCT_ADAPTER', hue='sample', dodge=False, data=dfc)
-
-for lb in plot.get_xticklabels():
-    lb.set_rotation(90)   
-
-for p in plot.patches:
-    if np.isnan(p.get_height())==False:
-         plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, '{:.2f}'.format(p.get_height()), fontsize=10, ha='center')
-
-plot.set_xlabel('')
-plot.legend_.remove()
-
-plt.savefig('adapter.png', format='png', dpi=500, bbox_inches='tight')
-
-
+barplot('PCT_PF_READS_UNALIGNED')
+barplot('PF_MISMATCH_RATE')
+barplot('PF_HQ_ERROR_RATE')
+barplot('PF_INDEL_RATE')
+barplot('PCT_CHIMERAS')
+barplot('PCT_ADAPTER')
 
 
 
