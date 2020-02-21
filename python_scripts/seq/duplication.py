@@ -15,7 +15,6 @@ sns.set_palette(sns.color_palette(['#ce0e2d', '#005cb9', '#f5a800', '#45c2b1', '
 
 files = glob.glob('*dups.tsv')
 
-
 samples = [i.replace('_dups.tsv', '') for i in files]
 samples = [i.replace('_trimmed', '') for i in samples]
 print(samples)

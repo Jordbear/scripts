@@ -15,7 +15,6 @@ sns.set_palette(sns.color_palette(['#ce0e2d', '#005cb9', '#f5a800', '#45c2b1', '
 
 files = glob.glob('*alignment.tsv')
 
-
 samples = [i.replace('_dmarked_alignment.tsv', '') for i in files]
 samples = [i.replace('_trimmed', '') for i in samples]
 print(samples)
@@ -75,7 +74,9 @@ def commas(x, pos):
 ax.get_yaxis().set_major_formatter(plt.FuncFormatter(commas))
 
 plot.set_xlabel('')
-plot.legend(loc='center right', bbox_to_anchor=(1.3, 0.5), framealpha=1)
+
+#plot.legend(loc='center right', bbox_to_anchor=(1.3, 0.5), framealpha=1)
+ax.get_legend().remove()
 
 plt.savefig('TOTAL_READS.png', format='png', dpi=500, bbox_inches='tight')
 
