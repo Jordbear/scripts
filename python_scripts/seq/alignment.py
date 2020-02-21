@@ -17,6 +17,7 @@ files = glob.glob('*alignment.tsv')
 
 
 samples = [i.replace('_dmarked_alignment.tsv', '') for i in files]
+samples = [i.replace('_trimmed', '') for i in samples]
 print(samples)
 print('')
 
@@ -98,7 +99,9 @@ def barplot(y):
     ax.set_ylim(top=ax.get_ylim()[1]*(1+(0.8/len(samples))))
     
     plot.set_xlabel('')
-    plot.legend(loc='center right', bbox_to_anchor=(1.3, 0.5), framealpha=1)
+    
+    #plot.legend(loc='center right', bbox_to_anchor=(1.3, 0.5), framealpha=1)
+    ax.get_legend().remove()
     
     plt.savefig(y+'.png', format='png', dpi=500, bbox_inches='tight')
 

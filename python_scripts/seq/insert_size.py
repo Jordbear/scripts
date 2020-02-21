@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import pandas as pd
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
@@ -15,13 +16,12 @@ files = glob.glob('*insert.tsv')
 print(files)
 print('')
 
-
 samples = [i.replace('_trimmed_dmarked_insert.tsv', '') for i in files]
 print(samples)
 print('')
 
 
-global dfl
+
 dfl = [pd.read_csv(f, sep='\t', skiprows=10, index_col=False) for f in files]
 for i in dfl:
     print(i.head())
@@ -39,18 +39,15 @@ for i in dfl:
 for i in dfl:
     print(i.head())
 
-
 count = 0
 for i in dfl:
     i['sample']=samples[count]
-    count+=1
-for i in dfl:
     print(i.head())
-
+    count+=1
 
 dfc = pd.concat(dfl, axis=0)
-#print(dfc)
-#print('')
+print(dfc)
+print('')
 
 
 
@@ -60,11 +57,11 @@ plot = sns.lineplot(x='insert_size', y='Reads', hue='sample', data=dfc)
 sns.despine()
 plot.set(xlim=(0, 1250))
 plot.set(ylim=(0, None))
-plot.legend(loc='center right', bbox_to_anchor=(1.7, 0.5), framealpha=1)
+plot.legend(loc='center right', bbox_to_anchor=(1.5, 0.5), framealpha=1).texts[0].set_text('Sample')
 def commas(x, pos):
     return '{:,}'.format(int(x))
 ax.get_yaxis().set_major_formatter(plt.FuncFormatter(commas))
-plt.savefig('insert_sizes.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('insert_size.png', format='png', dpi=500, bbox_inches='tight')
 
 
 

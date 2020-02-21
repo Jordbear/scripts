@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from matplotlib import pyplot as plt
 from matplotlib import ticker as ticker
 import pandas as pd
@@ -17,8 +18,11 @@ print(files)
 print('')
 
 samples = [i.replace('_dmarked_gc.tsv', '') for i in files]
+samples = [i.replace('_trimmed', '') for i in samples]
 print(samples)
 print('')
+
+
 
 dfl = [pd.read_csv(i, sep='\t', skiprows=6) for i in files]
 
@@ -46,10 +50,9 @@ print('')
 
 
 
-fig = plt.figure()
+fig = plt.figure(figsize=(7, 5))
 ax1 = fig.add_subplot(1, 1, 1)
 ax2 = ax1.twinx()
-
 
 sns.barplot(x='GC', y='WINDOWS', color='#035c67', data=dfe, ax=ax1)
 ax1.set(xlim=(0, 100))
@@ -68,19 +71,17 @@ ax1.yaxis.tick_right()
 ax1.yaxis.set_label_position('right')
 ax1.set(xlabel='GC percentage of windows', ylabel='Number of windows')
 
-
 ax2.axes.axhline(1, color='grey', ls='--')
 sns.lineplot(x='GC', y='NORMALIZED_COVERAGE', hue='sample', data=dfc, ax=ax2)
 ax2.set(xlim=(0, 100))
 ax2.set(ylim=(0, 2))
-ax2.legend(loc='center right', bbox_to_anchor=(1.7, 0.5), framealpha=1).texts[0].set_text('Sample')
+ax2.legend(loc='center right', bbox_to_anchor=(1.65, 0.5), framealpha=1).texts[0].set_text('Sample')
 ax2.grid(False)
 ax2.yaxis.tick_left()
 ax2.yaxis.set_label_position('left')
 ax2.set(xlabel='GC percentage of windows', ylabel='Normalised coverage')
 
-
-plt.savefig('gc_bias.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('GC.png', format='png', dpi=500, bbox_inches='tight')
 
 
 

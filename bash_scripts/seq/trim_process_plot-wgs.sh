@@ -84,3 +84,6 @@ done
 
 cd qc
 alignment.py
+duplication.py
+gc_bias.py
+insert_size.py
