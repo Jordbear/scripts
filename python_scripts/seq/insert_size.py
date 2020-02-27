@@ -16,7 +16,7 @@ files = glob.glob('*insert.tsv')
 print(files)
 print('')
 
-samples = [i.replace('_dmarked_alignment.tsv', '') for i in files]
+samples = [i.replace('_dmarked_inserts.tsv', '') for i in files]
 samples = [i.replace('_trimmed', '') for i in samples]
 print(samples)
 print('')

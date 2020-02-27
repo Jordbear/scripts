@@ -44,8 +44,8 @@ for bam in *.bam; do
   echo $bam
   java -jar /mnt/e/picard.jar CollectInsertSizeMetrics \
   I=$bam \
-  O=qc/${bam%%.bam}'_insert.tsv' \
-  H=qc/${bam%%.bam}'_insert.pdf'
+  O=qc/${bam%%.bam}'_inserts.tsv' \
+  H=qc/${bam%%.bam}'_inserts.pdf'
 done
 
 for bam in *.bam; do

@@ -28,8 +28,8 @@ for bam in dmarked/*.bam; do
   echo $base
   java -jar /mnt/e/picard.jar CollectInsertSizeMetrics \
   I=$bam \
-  O=dmarked/qc/${base%%.bam}'_insert.tsv' \
-  H=dmarked/qc/${base%%.bam}'_insert.pdf'
+  O=dmarked/qc/${base%%.bam}'_inserts.tsv' \
+  H=dmarked/qc/${base%%.bam}'_inserts.pdf'
 done
 
 for bam in dmarked/*.bam; do
