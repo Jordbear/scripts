@@ -67,9 +67,10 @@ for bam in *bam; do
 done
 
 
-
 cd qc
-alignment.py
-duplication.py
-gc_bias.py
-insert_size.py
+script=$(which jbscripts)
+directory=${script%%jbscripts}
+${directory}/python_scripts/seq/alignment.py
+${directory}/python_scripts/seq/duplication.py
+${directory}/python_scripts/seq/gc_bias.py
+${directory}/python_scripts/seq/insert_size.py

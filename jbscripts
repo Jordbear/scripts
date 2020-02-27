@@ -1,0 +1,19 @@
+#!/bin/bash
+command=${1:-'empty'}
+script=$(which jbscripts)
+directory=${script%%jbscripts}
+
+if [ $command == 'wgs' ]; then
+  echo 'Processing files as WGS data'
+  ${directory}bash_scripts/seq/process_plot-wgs.sh
+elif [ $command == 'dance' ]; then
+  echo 'we gonna dance'
+elif [ $command == 'boogy' ]; then
+  echo 'we gonna boogy'
+elif [ -z $1 ]; then
+  echo 'No command given'
+  echo 'Valid commands: wgs'
+else
+  echo "Invalid command: $command"
+  echo 'Valid commands: wgs'
+fi
