@@ -12,7 +12,7 @@ sns.set_palette(sns.color_palette(['#ce0e2d', '#005cb9', '#f5a800', '#45c2b1', '
 
 
                                    
-files = glob.glob('*insert.tsv')
+files = glob.glob('*inserts.tsv')
 print(files)
 print('')
 

@@ -1,19 +1,23 @@
 #!/bin/bash
-command=${1:-'empty'}
-script=$(which jbscripts)
-directory=${script%%jbscripts}
+call=$1
+arg1=$2
+arg2=$3
+directory=$(which jbscripts)_dir/
 
-if [ $command == 'wgs' ]; then
-  echo 'Processing files as WGS data'
-  ${directory}bash_scripts/seq/process_plot-wgs.sh
-elif [ $command == 'dance' ]; then
+if [ -z $call ]; then
+  echo 'No call given'
+  echo 'Valid calls: wgs'
+  exit
+fi
+
+if [ $call == 'wgs' ]; then
+  echo 'Processing files as WGS data...'
+  ${directory}process_plot-wgs.sh $arg1 $arg2
+elif [ $call == 'dance' ]; then
   echo 'we gonna dance'
-elif [ $command == 'boogy' ]; then
+elif [ $call == 'boogy' ]; then
   echo 'we gonna boogy'
-elif [ -z $1 ]; then
-  echo 'No command given'
-  echo 'Valid commands: wgs'
 else
-  echo "Invalid command: $command"
-  echo 'Valid commands: wgs'
+  echo "Invalid call: $call"
+  echo 'Valid calls: wgs'
 fi

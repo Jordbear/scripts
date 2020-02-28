@@ -1,17 +1,23 @@
 #!/bin/bash
-default_ref_index=/mnt/e/ref_bacteria/T/E_coli_tfs/bowtie2_tfs/tfs
-ref_index=${1:-$default_ref_index}
-echo Aligning to: ${ref_index}
-default_ref=/mnt/e/ref_bacteria/T/E_coli_tfs/e_coli_tfs.fasta
-ref=${2:-$default_ref}
-echo Referencing: $ref
+ref_index=$1
+ref=$2
 
+if [ -z $ref_index ]; then
+  echo 'Missing argument: Reference index'
+  echo 'Exiting.'
+  exit
+elif [ -z $ref ]; then
+  echo 'Missing argument: Reference file'
+  echo 'Exiting.'
+  exit
+fi
+
+echo Aligning to: $ref_index
+echo Referencing: $ref
 echo ''
 
 
-
 mkdir bams
-echo Aligning read pairs to reference: ${ref_index}
 for fq1 in *1.fastq.gz; do
   fq2=${fq1%%1.fastq.gz}'2.fastq.gz'
   echo $fq1
@@ -70,9 +76,8 @@ done
 
 
 cd qc
-script=$(which jbscripts)
-directory=${script%%jbscripts}
-${directory}/python_scripts/seq/alignment.py
-${directory}/python_scripts/seq/duplication.py
-${directory}/python_scripts/seq/gc_bias.py
-${directory}/python_scripts/seq/insert_size.py
+directory=$(which jbscripts)_dir/
+${directory}alignment.py
+${directory}duplication.py
+${directory}gc_bias.py
+${directory}insert_size.py
