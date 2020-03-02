@@ -1,13 +1,10 @@
 #!/bin/bash
-default_ref_index=/mnt/e/ref_bacteria/T/E_coli_tfs/bowtie2_tfs/tfs
-ref_index=${1:-$default_ref_index}
+ref_index=/mnt/e/ref_bacteria/T/E_coli_tfs/bowtie2_tfs/tfs
 echo Aligning to: ${ref_index}
-default_ref=/mnt/e/ref_bacteria/T/E_coli_tfs/e_coli_tfs.fasta
-ref=${2:-$default_ref}
+ref=/mnt/e/ref_bacteria/T/E_coli_tfs/e_coli_tfs.fasta
 echo Referencing: $ref
 
 echo ''
-
 
 
 mkdir bams
