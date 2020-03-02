@@ -2,6 +2,7 @@
 call=$1
 arg1=$2
 arg2=$3
+arg3=$4
 directory=$(which jbscripts)_dir/
 
 if [ -z $call ]; then
@@ -13,10 +14,11 @@ fi
 if [ $call == 'wgs' ]; then
   echo 'Processing files as WGS data...'
   ${directory}process_plot-wgs.sh $arg1 $arg2
-elif [ $call == 'dance' ]; then
-  echo 'we gonna dance'
-elif [ $call == 'boogy' ]; then
-  echo 'we gonna boogy'
+  ${directory}trim_process_plot-wgs.sh $arg1 $arg2 $arg3
+elif [ $call == 'rna-seq' ]; then
+  echo 'Coming soon'
+elif [ $call == 'ssrna-seq' ]; then
+  echo 'Maybe some day'
 else
   echo "Invalid call: $call"
   echo 'Valid calls: wgs'
