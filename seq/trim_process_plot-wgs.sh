@@ -1,11 +1,11 @@
 #!/bin/bash
 adapters=TruSeq3-PE.fa
-echo Trimming adapters: $adapters
 ref_index=/mnt/e/ref_bacteria/T/E_coli_tfs/bowtie2_tfs/tfs
-echo Aligning to: ${ref_index}
 ref=/mnt/e/ref_bacteria/T/E_coli_tfs/e_coli_tfs.fasta
-echo Referencing: $ref
 
+echo Trimming adapters: $adapters
+echo Aligning to: ${ref_index}
+echo Referencing: $ref
 echo ''
 
 
@@ -15,9 +15,9 @@ for fq1 in *1.fastq.gz; do
   fq2=${fq1%%1.fastq.gz}'2.fastq.gz'
   echo $fq1
   echo $fq2
-  java -jar /mnt/e/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 4 -phred33 $fq1 $fq2 \
+  java -jar $TRIMMOMATIC PE -threads 4 -phred33 $fq1 $fq2 \
   trimmed/${fq1%%1.fastq.gz}'trimmed_1.fastq.gz' trimmed/${fq1%%1.fastq.gz}'trimmed_1U.fastq.gz' trimmed/${fq2%%2.fastq.gz}'trimmed_2.fastq.gz' trimmed/${fq2%%2.fastq.gz}'trimmed_2U.fastq.gz' \
-  ILLUMINACLIP:/mnt/e/Trimmomatic-0.39/adapters/$adapters:2:30:10:1:true LEADING:30 TRAILING:30 MINLEN:30
+  ILLUMINACLIP:${TRIMMOMATIC%%trimmomatic-0.39.jar}/adapters/${adapters}:2:30:10:1:true LEADING:30 TRAILING:30 MINLEN:30
 done
 
 
@@ -38,7 +38,7 @@ mkdir dmarked
 mkdir dmarked/qc
 for bam in *.bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar MarkDuplicates \
+  java -jar $PICARD MarkDuplicates \
   I=$bam \
   O=dmarked/${bam%%.bam}'_dmarked.bam' \
   M=dmarked/qc/${bam%%.bam}'_dups.tsv'
@@ -48,7 +48,7 @@ done
 cd dmarked
 for bam in *.bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar CollectAlignmentSummaryMetrics \
+  java -jar $PICARD CollectAlignmentSummaryMetrics \
   R=$ref \
   I=$bam \
   O=qc/${bam%%.bam}'_alignment.tsv'
@@ -56,7 +56,7 @@ done
 
 for bam in *.bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar CollectInsertSizeMetrics \
+  java -jar $PICARD CollectInsertSizeMetrics \
   I=$bam \
   O=qc/${bam%%.bam}'_inserts.tsv' \
   H=qc/${bam%%.bam}'_inserts.pdf'
@@ -64,7 +64,7 @@ done
 
 for bam in *.bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar CollectGcBiasMetrics \
+  java -jar $PICARD CollectGcBiasMetrics \
   I=$bam \
   O=qc/${bam%%.bam}'_gc.tsv' \
   CHART=qc/${bam%%.bam}'_gc.pdf' \
@@ -74,7 +74,7 @@ done
 
 for bam in *bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar CollectWgsMetrics \
+  java -jar $PICARD CollectWgsMetrics \
   I=$bam \
   O=qc/${bam%%.bam}'_wgs.tsv' \
   R=$ref

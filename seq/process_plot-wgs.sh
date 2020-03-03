@@ -1,9 +1,9 @@
 #!/bin/bash
 ref_index=/mnt/e/ref_bacteria/T/E_coli_tfs/bowtie2_tfs/tfs
-echo Aligning to: ${ref_index}
 ref=/mnt/e/ref_bacteria/T/E_coli_tfs/e_coli_tfs.fasta
-echo Referencing: $ref
 
+echo Aligning to: ${ref_index}
+echo Referencing: $ref
 echo ''
 
 
@@ -24,7 +24,7 @@ mkdir dmarked
 mkdir dmarked/qc
 for bam in *.bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar MarkDuplicates \
+  java -jar $PICARD MarkDuplicates \
   I=$bam \
   O=dmarked/${bam%%.bam}'_dmarked.bam' \
   M=dmarked/qc/${bam%%.bam}'_dups.tsv'
@@ -34,7 +34,7 @@ done
 cd dmarked
 for bam in *.bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar CollectAlignmentSummaryMetrics \
+  java -jar $PICARD CollectAlignmentSummaryMetrics \
   R=$ref \
   I=$bam \
   O=qc/${bam%%.bam}'_alignment.tsv'
@@ -42,7 +42,7 @@ done
 
 for bam in *.bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar CollectInsertSizeMetrics \
+  java -jar $PICARD CollectInsertSizeMetrics \
   I=$bam \
   O=qc/${bam%%.bam}'_inserts.tsv' \
   H=qc/${bam%%.bam}'_inserts.pdf'
@@ -50,7 +50,7 @@ done
 
 for bam in *.bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar CollectGcBiasMetrics \
+  java -jar $PICARD CollectGcBiasMetrics \
   I=$bam \
   O=qc/${bam%%.bam}'_gc.tsv' \
   CHART=qc/${bam%%.bam}'_gc.pdf' \
@@ -60,7 +60,7 @@ done
 
 for bam in *bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar CollectWgsMetrics \
+  java -jar $PICARD CollectWgsMetrics \
   I=$bam \
   O=qc/${bam%%.bam}'_wgs.tsv' \
   R=$ref
