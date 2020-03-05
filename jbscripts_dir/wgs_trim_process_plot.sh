@@ -1,7 +1,7 @@
 #!/bin/bash
-ref_index=$1
-ref=$2
-adapters=$3
+adapters=$1
+ref_index=$2
+ref=$3
 
 echo Trimming adapters: $adapters
 echo Aligning to: $ref_index
