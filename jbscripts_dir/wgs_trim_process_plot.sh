@@ -1,23 +1,27 @@
 #!/bin/bash
 ref_index=$1
 ref=$2
+adapters=$3
 
-if [ -z $ref_index ]; then
-  echo 'Missing argument: Reference index'
-  echo 'Exiting.'
-  exit
-elif [ -z $ref ]; then
-  echo 'Missing argument: Reference file'
-  echo 'Exiting.'
-  exit
-fi
-
+echo Trimming adapters: $adapters
 echo Aligning to: $ref_index
 echo Referencing: $ref
 echo ''
 
 
 
+mkdir trimmed
+for fq1 in *1.fastq.gz; do
+  fq2=${fq1%%1.fastq.gz}'2.fastq.gz'
+  echo $fq1
+  echo $fq2
+  java -jar $TRIMMOMATIC PE -threads 4 -phred33 $fq1 $fq2 \
+  trimmed/${fq1%%1.fastq.gz}'trimmed_1.fastq.gz' trimmed/${fq1%%1.fastq.gz}'trimmed_1U.fastq.gz' trimmed/${fq2%%2.fastq.gz}'trimmed_2.fastq.gz' trimmed/${fq2%%2.fastq.gz}'trimmed_2U.fastq.gz' \
+  ILLUMINACLIP:${TRIMMOMATIC%%trimmomatic-0.39.jar}/adapters/${adapters}:2:30:10:1:true LEADING:30 TRAILING:30 MINLEN:30
+done
+
+
+cd trimmed
 mkdir bams
 for fq1 in *1.fastq.gz; do
   fq2=${fq1%%1.fastq.gz}'2.fastq.gz'

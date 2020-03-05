@@ -1,0 +1,63 @@
+#!/bin/bash
+directory=$(which jbscripts)_dir/
+command=$1
+shift
+
+for i in $@; do
+  case $i in
+    -a|--adapters)
+    adapters=$2
+    shift
+    shift
+    ;;
+    -i|--index)
+    ref_index=$2
+    shift
+    shift
+    ;;
+    -r|--reference)
+    ref=$2
+    shift
+    shift
+    ;;
+  esac
+done
+
+
+
+function wgs {
+  missing=0
+  if [ -z $adapters ]; then
+    missing+=1
+    echo "Missing argument: Adapters"
+  fi
+  if [ -z $ref_index ]; then
+    missing+=1
+    echo "Missing argument: Reference index"
+  fi
+  if [ -z $ref ]; then
+    missing+=1
+    echo "Missing argument: Reference file"
+  fi
+  if [ $missing -eq 0 ]; then
+    echo "Processing files as WGS data..."
+    ${directory}wgs_process_plot.sh $ref_index $ref
+    ${directory}wgs_trim_process_plot.sh $adapters $ref_index $ref
+  fi
+}
+
+
+
+if [ -z $command ]; then
+  echo "No command given"
+  echo "Valid commands: wgs, rna-seq, ssrna-seq"
+elif [ $command == "wgs" ]; then
+  wgs
+elif [ $command == "rna-seq" ]; then
+  echo "Coming soon"
+elif [ $command == "ssrna-seq" ]; then
+  echo "Maybe some day"
+else
+  echo "Invalid command: $command"
+  echo "Valid commands: wgs, rna-seq, ssrna-seq"
+fi

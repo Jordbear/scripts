@@ -2,7 +2,7 @@
 ref_index=/mnt/e/ref_bacteria/T/E_coli_tfs/bowtie2_tfs/tfs
 ref=/mnt/e/ref_bacteria/T/E_coli_tfs/e_coli_tfs.fasta
 
-echo Aligning to: ${ref_index}
+echo Aligning to: $ref_index
 echo Referencing: $ref
 echo ''
 
