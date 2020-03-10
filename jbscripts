@@ -1,25 +1,95 @@
 #!/bin/bash
-call=$1
-arg1=$2
-arg2=$3
-arg3=$4
 directory=$(which jbscripts)_dir/
+command=$1
+shift
 
-if [ -z $call ]; then
-  echo 'No call given'
-  echo 'Valid calls: wgs'
-  exit
-fi
+for i in $@; do
+  case $i in
+    -t|--trim)
+    trim=$2
+    shift
+    shift
+    ;;
+    -a|--adapters)
+    adapters=$2
+    shift
+    shift
+    ;;
+    -i|--index)
+    ref_index=$2
+    shift
+    shift
+    ;;
+    -r|--reference)
+    ref=$2
+    shift
+    shift
+    ;;
+  esac
+done
 
-if [ $call == 'wgs' ]; then
-  echo 'Processing files as WGS data...'
-  ${directory}process_plot-wgs.sh $arg1 $arg2
-  ${directory}trim_process_plot-wgs.sh $arg1 $arg2 $arg3
-elif [ $call == 'rna-seq' ]; then
-  echo 'Coming soon'
-elif [ $call == 'ssrna-seq' ]; then
-  echo 'Maybe some day'
+
+
+function wgs {
+  missing=0
+  invalid=0
+
+  if [[ -n $trim ]] && [[ $trim != "true" ]] && [[ $trim != "false" ]]; then
+    invalid+=1
+    echo "Invalid trim argument: $trim"
+    echo "Valid trim arguments: true, false"
+  fi
+
+  if [[ -z $adapters ]] && [[ $trim != "false" ]]; then
+    missing+=1
+    echo "Missing argument: Adapters"
+  elif [[ ! -f ${TRIMMOMATIC%%trimmomatic-0.39.jar}adapters/${adapters} ]] && [[ $trim != "false" ]]; then
+    invalid+=1
+    echo "File does not exist: ${TRIMMOMATIC%%trimmomatic-0.39.jar}adapters/${adapters}"
+  fi
+
+  if [[ -z $ref_index ]]; then
+    missing+=1
+    echo "Missing argument: Reference index"
+  elif [[ ! -f ${ref_index}.1.bt2 ]]; then
+    invalid+=1
+    echo "File does not exist: ${ref_index}.1.bt2"
+  fi
+
+  if [[ -z $ref ]]; then
+    missing+=1
+    echo "Missing argument: Reference file"
+  elif [[ ! -f $ref ]]; then
+    invalid+=1
+    echo "File does not exist: $ref"
+  fi
+
+
+  if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]] && [[ $trim == "true" ]]; then
+    echo "Processing files as WGS data..."
+    ${directory}wgs_trim_process_plot.sh $adapters $ref_index $ref
+  elif [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]] && [[ $trim == "false" ]]; then
+    echo "Processing files as WGS data..."
+    ${directory}wgs_process_plot.sh $ref_index $ref
+  elif [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
+    echo "Processing files as WGS data..."
+    ${directory}wgs_process_plot.sh $ref_index $ref
+    ${directory}wgs_trim_process_plot.sh $adapters $ref_index $ref
+  fi
+}
+
+
+
+if [[ -z $command ]]; then
+  echo "No command given"
+  echo "Valid commands: wgs, rna-seq, ssrna-seq"
+elif [[ $command == "wgs" ]]; then
+  wgs
+elif [[ $command == "rna-seq" ]]; then
+  echo "Coming soon"
+elif [[ $command == "ssrna-seq" ]]; then
+  echo "Maybe some day"
 else
-  echo "Invalid call: $call"
-  echo 'Valid calls: wgs'
+  echo "Invalid command: $command"
+  echo "Valid commands: wgs, rna-seq, ssrna-seq"
 fi
