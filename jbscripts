@@ -55,12 +55,9 @@ function wgs {
   fi
 
 
-  if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]] && [[ $trim == "true" ]]; then
+  if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
     echo "Processing files as WGS data..."
-    ${directory}wgs_trim_process_plot.sh $adapters $ref_index $ref
-  elif [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
-    echo "Processing files as WGS data..."
-    ${directory}wgs_process_plot.sh $ref_index $ref
+    ${directory}wgs_process_plot.sh ${trim:-"empty"} ${adapters:-"empty"} $ref_index $ref
   fi
 }
 
@@ -95,12 +92,9 @@ function tas {
   fi
 
 
-  if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]] && [[ $trim == "true" ]]; then
+  if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
     echo "Processing files as TAS data..."
-    ${directory}tas_trim_process_plot.sh $adapters $ref_index $ref
-  elif [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
-    echo "Processing files as TAS data..."
-    ${directory}tas_process_plot.sh $ref_index $ref
+    ${directory}tas_process_plot.sh $trim $adapters $ref_index $ref
   fi
 }
 

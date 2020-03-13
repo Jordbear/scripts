@@ -1,10 +1,30 @@
 #!/bin/bash
-ref_index=$1
-ref=$2
+trim=$1
+adapters=$2
+ref_index=$3
+ref=$4
 
+if [[ $trim == "true" ]]; then
+  echo Trimming with adapters: $adapters
+fi
 echo Aligning to: $ref_index
 echo Referencing: $ref
 echo ''
+
+
+
+if [[ $trim == "true" ]]; then
+  mkdir trimmed
+  for fq1 in *1.fastq.gz; do
+    fq2=${fq1%%1.fastq.gz}'2.fastq.gz'
+    echo $fq1
+    echo $fq2
+    java -jar $TRIMMOMATIC PE -threads 4 -phred33 $fq1 $fq2 \
+    trimmed/${fq1%%1.fastq.gz}'trimmed_1.fastq.gz' trimmed/${fq1%%1.fastq.gz}'trimmed_1U.fastq.gz' trimmed/${fq2%%2.fastq.gz}'trimmed_2.fastq.gz' trimmed/${fq2%%2.fastq.gz}'trimmed_2U.fastq.gz' \
+    ILLUMINACLIP:${TRIMMOMATIC%%trimmomatic-0.39.jar}adapters/${adapters}:2:30:10:1:true LEADING:30 TRAILING:30 MINLEN:30
+  done
+  cd trimmed
+fi
 
 
 
@@ -16,9 +36,9 @@ for fq1 in *1.fastq.gz; do
   echo ${fq1%%_1.fastq.gz}'.bam'
   bowtie2 -q -p 4 -X 1500 -x $ref_index -1 $fq1 -2 $fq2 | samtools sort -O BAM > bams/${fq1%%_1.fastq.gz}'.bam'
 done
-
-
 cd bams
+
+
 mkdir dmarked
 mkdir dmarked/qc
 for bam in *.bam; do
@@ -28,9 +48,9 @@ for bam in *.bam; do
   O=dmarked/${bam%%.bam}'_dmarked.bam' \
   M=dmarked/qc/${bam%%.bam}'_dups.tsv'
 done
-
-
 cd dmarked
+
+
 for bam in *.bam; do
   echo $bam
   java -jar $PICARD CollectAlignmentSummaryMetrics \
@@ -64,10 +84,10 @@ for bam in *bam; do
   O=qc/${bam%%.bam}'_wgs.tsv' \
   R=$ref
 done
-
-
-
 cd qc
+
+
+
 directory=$(which jbscripts)_dir/
 ${directory}alignment.py
 ${directory}duplication.py
