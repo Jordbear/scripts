@@ -6,11 +6,7 @@ shift
 for i in $@; do
   case $i in
     -t|--trim)
-    trim=$2
-    shift
-    shift
-    ;;
-    -a|--adapters)
+    trim="true"
     adapters=$2
     shift
     shift
@@ -34,16 +30,10 @@ function wgs {
   missing=0
   invalid=0
 
-  if [[ -n $trim ]] && [[ $trim != "true" ]] && [[ $trim != "false" ]]; then
-    invalid+=1
-    echo "Invalid trim argument: $trim"
-    echo "Valid trim arguments: true, false"
-  fi
-
-  if [[ -z $adapters ]] && [[ $trim != "false" ]]; then
+  if [[ $trim == "true" ]] && [[ -z ${adapters} ]]; then
     missing+=1
     echo "Missing argument: Adapters"
-  elif [[ ! -f ${TRIMMOMATIC%%trimmomatic-0.39.jar}adapters/${adapters} ]] && [[ $trim != "false" ]]; then
+  elif [[ $trim == "true" ]] && [[ ! -f "${TRIMMOMATIC%%trimmomatic-0.39.jar}adapters/${adapters}" ]]; then
     invalid+=1
     echo "File does not exist: ${TRIMMOMATIC%%trimmomatic-0.39.jar}adapters/${adapters}"
   fi
@@ -51,7 +41,7 @@ function wgs {
   if [[ -z $ref_index ]]; then
     missing+=1
     echo "Missing argument: Reference index"
-  elif [[ ! -f ${ref_index}.1.bt2 ]]; then
+  elif [[ ! -f "${ref_index}.1.bt2" ]]; then
     invalid+=1
     echo "File does not exist: ${ref_index}.1.bt2"
   fi
@@ -68,13 +58,49 @@ function wgs {
   if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]] && [[ $trim == "true" ]]; then
     echo "Processing files as WGS data..."
     ${directory}wgs_trim_process_plot.sh $adapters $ref_index $ref
-  elif [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]] && [[ $trim == "false" ]]; then
-    echo "Processing files as WGS data..."
-    ${directory}wgs_process_plot.sh $ref_index $ref
   elif [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
     echo "Processing files as WGS data..."
     ${directory}wgs_process_plot.sh $ref_index $ref
-    ${directory}wgs_trim_process_plot.sh $adapters $ref_index $ref
+  fi
+}
+
+
+
+function tas {
+  missing=0
+  invalid=0
+
+  if [[ $trim == "true" ]] && [[ -z ${adapters} ]]; then
+    missing+=1
+    echo "Missing argument: Adapters"
+  elif [[ $trim == "true" ]] && [[ ! -f "${TRIMMOMATIC%%trimmomatic-0.39.jar}adapters/${adapters}" ]]; then
+    invalid+=1
+    echo "File does not exist: ${TRIMMOMATIC%%trimmomatic-0.39.jar}adapters/${adapters}"
+  fi
+
+  if [[ -z $ref_index ]]; then
+    missing+=1
+    echo "Missing argument: Reference index"
+  elif [[ ! -f "${ref_index}.1.bt2" ]]; then
+    invalid+=1
+    echo "File does not exist: ${ref_index}.1.bt2"
+  fi
+
+  if [[ -z $ref ]]; then
+    missing+=1
+    echo "Missing argument: Reference file"
+  elif [[ ! -f $ref ]]; then
+    invalid+=1
+    echo "File does not exist: $ref"
+  fi
+
+
+  if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]] && [[ $trim == "true" ]]; then
+    echo "Processing files as TAS data..."
+    ${directory}tas_trim_process_plot.sh $adapters $ref_index $ref
+  elif [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
+    echo "Processing files as TAS data..."
+    ${directory}tas_process_plot.sh $ref_index $ref
   fi
 }
 
@@ -82,14 +108,16 @@ function wgs {
 
 if [[ -z $command ]]; then
   echo "No command given"
-  echo "Valid commands: wgs, rna-seq, ssrna-seq"
+  echo "Valid commands: wgs, tas, rna-seq, ssrna-seq"
 elif [[ $command == "wgs" ]]; then
   wgs
+elif [[ $command == "tas" ]]; then
+  tas
 elif [[ $command == "rna-seq" ]]; then
   echo "Coming soon"
 elif [[ $command == "ssrna-seq" ]]; then
   echo "Maybe some day"
 else
   echo "Invalid command: $command"
-  echo "Valid commands: wgs, rna-seq, ssrna-seq"
+  echo "Valid commands: wgs, tas, rna-seq, ssrna-seq"
 fi
