@@ -9,7 +9,6 @@ if [[ $trim == "true" ]]; then
 fi
 echo Aligning to: $ref_index
 echo Reference: $ref
-echo ''
 
 
 
