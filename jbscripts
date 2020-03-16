@@ -21,6 +21,15 @@ for i in $@; do
     shift
     shift
     ;;
+    -a|--annotation)
+    annotation=$2
+    shift
+    shift
+    ;;
+    -h|--help)
+    cat "${directory}help.md"
+    shift
+    ;;
   esac
 done
 
@@ -91,10 +100,18 @@ function tas {
     echo "File does not exist: $ref"
   fi
 
+  if [[ -z $annotation ]]; then
+    missing+=1
+    echo "Missing argument: Target annotation"
+  elif [[ ! -f $annotation ]]; then
+    invalid+=1
+    echo "File does not exist: $annotation"
+  fi
+
 
   if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
     echo "Processing files as TAS data..."
-    ${directory}tas_process_plot.sh $trim $adapters $ref_index $ref
+    ${directory}tas_process_plot.sh ${trim:-"empty"} ${adapters:-"empty"} $ref_index $ref $annotation
   fi
 }
 
@@ -111,6 +128,8 @@ elif [[ $command == "rna-seq" ]]; then
   echo "Coming soon"
 elif [[ $command == "ssrna-seq" ]]; then
   echo "Maybe some day"
+elif [[ $command == "-h" ]] || [[ $command == "--help" ]]; then
+  cat "${directory}help.md"
 else
   echo "Invalid command: $command"
   echo "Valid commands: wgs, tas, rna-seq, ssrna-seq"

@@ -8,7 +8,7 @@ if [[ $trim == "true" ]]; then
   echo Trimming with adapters: $adapters
 fi
 echo Aligning to: $ref_index
-echo Referencing: $ref
+echo Reference: $ref
 echo ''
 
 

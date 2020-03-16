@@ -3,12 +3,14 @@ trim=$1
 adapters=$2
 ref_index=$3
 ref=$4
+annotation=$5
 
 if [[ $trim == "true" ]]; then
   echo Trimming with adapters: $adapters
 fi
 echo Aligning to: $ref_index
-echo Referencing: $ref
+echo Reference: $ref
+echo Annotation: $annotation
 echo ''
 
 
@@ -51,6 +53,8 @@ done
 cd dmarked
 
 
+files=(*.bam)
+
 for bam in *.bam; do
   echo $bam
   java -jar $PICARD CollectAlignmentSummaryMetrics \
@@ -77,12 +81,25 @@ for bam in *.bam; do
   R=$ref
 done
 
+java -jar $PICARD BedToIntervalList \
+I=$annotation \
+O=qc/interval_list.tsv \
+SD=${files[0]}
 for bam in *bam; do
   echo $bam
-  java -jar $PICARD CollectWgsMetrics \
+  java -jar $PICARD CollectTargetedPcrMetrics \
   I=$bam \
-  O=qc/${bam%%.bam}'_wgs.tsv' \
-  R=$ref
+  O=qc/${bam%%.bam}'_tas.tsv' \
+  R=$ref \
+  AMPLICON_INTERVALS=qc/interval_list.tsv \
+  TARGET_INTERVALS=qc/interval_list.tsv
+done
+
+mkdir targets
+samtools view -H ${files[0]} | grep @SQ | sed 's/@SQ\tSN:\|LN://g' > targets/sort_order.tsv
+for bam in *.bam; do
+  echo $bam
+  bedtools coverage -a $annotation -b $bam -sorted -g targets/sort_order.tsv -mean > targets/${bam%%.bam}'_targets.tsv'
 done
 cd qc
 

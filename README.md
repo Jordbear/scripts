@@ -12,4 +12,4 @@ Many of the Bash scripts were written to automate the processing of DNA sequenci
 
 Many of the Python scripts were written to collate and plot data from the output of processing. These scripts require Python3 and various packages to run including, but not necessarily limited to: NumPy, Pandas, Glob, Matplotlib and Seaborn. These packages will need to be installed in the relevant Python3 environment in order for the scripts to run successfully. It is highly recommended to add directories containing scripts of use to the PATH variable so that they can be easily called by a Bash terminal or by Bash scripts from this repositiry.
 
-For convenience some of the more comprehensive Bash scripts and their assosciated Python3 scripts are duplicated together in /seq. Adding this directory to your $PATH variable will facilitate running these scripts anywhere from the command line.
+For convenience some comprehensive Bash scripts and their assosciated Python3 scripts can be found in /seq. Adding this directory to your $PATH variable will facilitate running these scripts anywhere from the command line.
