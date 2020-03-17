@@ -8,7 +8,7 @@ annotation=$5
 if [[ $trim == "true" ]]; then
   echo Trimming with adapters: $adapters
 fi
-echo Aligning to: $ref_index
+echo Reference index: $ref_index
 echo Reference: $ref
 echo Annotation: $annotation
 
