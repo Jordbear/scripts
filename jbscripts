@@ -116,6 +116,10 @@ function tas {
 }
 
 
+function unaligned {
+  ${directory}unaligned_process_plot.sh
+}
+
 
 if [[ -z $command ]]; then
   echo "No command given"
@@ -128,6 +132,8 @@ elif [[ $command == "rna-seq" ]]; then
   echo "Coming soon"
 elif [[ $command == "ssrna-seq" ]]; then
   echo "Maybe some day"
+elif [[ $command == "unaligned" ]]; then
+  unaligned
 elif [[ $command == "-h" ]] || [[ $command == "--help" ]]; then
   cat "${directory}help.md"
 else
