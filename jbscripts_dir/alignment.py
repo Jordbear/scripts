@@ -15,8 +15,10 @@ sns.set_palette(sns.color_palette(['#ce0e2d', '#005cb9', '#f5a800', '#45c2b1', '
 
 files = glob.glob('*alignment.tsv')
 
-samples = [i.replace('_dmarked_alignment.tsv', '') for i in files]
+samples = [i.replace('_alignment.tsv', '') for i in files]
+samples = [i.replace('_dmarked', '') for i in samples]
 samples = [i.replace('_trimmed', '') for i in samples]
+samples = [i.replace('_unaligned', '') for i in samples]
 print(samples)
 print('')
 

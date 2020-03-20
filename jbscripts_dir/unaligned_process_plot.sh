@@ -9,5 +9,19 @@ for fq1 in *1.fastq.gz; do
   F1=$fq1 \
   F2=$fq2 \
   O=unaligned/${fq1%%_1.fastq.gz}'_unaligned.bam' \
-  SM=unaligned
+  SM=${fq1%_*_1.fastq.gz} \
+  SORT_ORDER=coordinate
 done
+cd unaligned
+
+mkdir qc
+for bam in *.bam; do
+  echo $bam
+  java -jar $PICARD CollectAlignmentSummaryMetrics \
+  I=$bam \
+  O=qc/${bam%%.bam}'_alignment.tsv'
+done
+cd qc
+
+directory=$(which jbscripts)_dir/
+${directory}alignment.py
