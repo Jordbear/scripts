@@ -26,6 +26,10 @@ for i in $@; do
     shift
     shift
     ;;
+    -u|--unaligned)
+    unaligned="true"
+    shift
+    ;;
     -h|--help)
     cat "${directory}help.md"
     shift
@@ -64,7 +68,12 @@ function wgs {
   fi
 
 
-  if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
+  if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]] && [[ $unaligned == "true" ]]; then
+    echo "Processing unaligned reads..."
+    ${directory}unaligned_process_plot.sh
+    echo "Processing files as WGS data..."
+    ${directory}wgs_process_plot.sh ${trim:-"empty"} ${adapters:-"empty"} $ref_index $ref
+  elif [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
     echo "Processing files as WGS data..."
     ${directory}wgs_process_plot.sh ${trim:-"empty"} ${adapters:-"empty"} $ref_index $ref
   fi
@@ -109,14 +118,20 @@ function tas {
   fi
 
 
-  if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
+  if [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]] && [[ $unaligned == "true" ]]; then
+    echo "Processing unaligned reads..."
+    ${directory}unaligned_process_plot.sh
     echo "Processing files as TAS data..."
-    ${directory}tas_process_plot.sh ${trim:-"empty"} ${adapters:-"empty"} $ref_index $ref $annotation
+    ${directory}tas_process_plot.sh ${trim:-"empty"} ${adapters:-"empty"} $ref_index $ref
+  elif [[ $missing -eq 0 ]] && [[ $invalid -eq 0 ]]; then
+    echo "Processing files as TAS data..."
+    ${directory}tas_process_plot.sh ${trim:-"empty"} ${adapters:-"empty"} $ref_index $ref
   fi
 }
 
 
 function unaligned {
+  echo "Processing unaligned reads..."
   ${directory}unaligned_process_plot.sh
 }
 
