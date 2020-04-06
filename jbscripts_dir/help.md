@@ -28,3 +28,4 @@ ssrna-seq
 Not yet implemented
 
 unaligned
+Takes no arguments

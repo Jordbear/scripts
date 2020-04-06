@@ -3,8 +3,9 @@ directory=$(which jbscripts)_dir/
 command=$1
 shift
 
-for i in $@; do
-  case $i in
+unrecognised=0
+while [[ $# -gt 0 ]]; do
+  case $1 in
     -t|--trim)
     trim="true"
     adapters=$2
@@ -32,6 +33,11 @@ for i in $@; do
     ;;
     -h|--help)
     cat "${directory}help.md"
+    shift
+    ;;
+    *)
+    rogue+=$1
+    echo "Rogue argument: $1"
     shift
     ;;
   esac
@@ -139,6 +145,8 @@ function unaligned {
 if [[ -z $command ]]; then
   echo "No command given"
   cat "${directory}help.md"
+elif [[ ${#rogue[@]} -gt 0 ]]; then
+  echo "Rogue arguments found"
 elif [[ $command == "wgs" ]]; then
   wgs
 elif [[ $command == "tas" ]]; then
