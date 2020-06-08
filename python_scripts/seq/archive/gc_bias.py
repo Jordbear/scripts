@@ -9,7 +9,7 @@ import glob
 import seaborn as sns
 sns.set_style('white', {'axes.grid': True, 'xtick.bottom': True, 'ytick.left': False})
 sns.set_context(rc={'patch.linewidth': '0.0'})
-sns.set_palette(sns.color_palette(['#ce0e2d', '#005cb9', '#f5a800', '#45c2b1', '#035c67']))
+sns.set_palette(sns.color_palette(['#d8874a', '#59aa63', '#c04f50', '#8571b8', '#92795e']))
 
 
 
@@ -54,7 +54,7 @@ fig = plt.figure(figsize=(7, 5))
 ax1 = fig.add_subplot(1, 1, 1)
 ax2 = ax1.twinx()
 
-sns.barplot(x='GC', y='WINDOWS', color='#035c67', data=dfe, ax=ax1)
+sns.barplot(x='GC', y='WINDOWS', color='#618cd9', data=dfe, ax=ax1)
 ax1.set(xlim=(0, 100))
 ax1.xaxis.set_major_locator(ticker.MultipleLocator(10))
 ax1.xaxis.set_major_formatter(ticker.ScalarFormatter())
