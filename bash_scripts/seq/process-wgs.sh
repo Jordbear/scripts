@@ -19,7 +19,7 @@ for fq1 in *R1*.fastq.gz; do
   echo $bam
   bowtie2 -q -p 6 -X 1000 -x $ref_index -1 $fq1 -2 $fq2 | samtools sort -@ 6 -O BAM > bams/$bam
 done
-exit
+
 
 cd bams
 mkdir dmarked

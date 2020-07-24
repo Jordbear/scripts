@@ -1,12 +1,15 @@
 #!/bin/bash
-ref=/mnt/e/ref_bacteria/T/E_coli_tfs/bowtie2_tfs/tfs
-echo Aligning read pairs to reference: ${ref}
+ref_index=/Users/jordanbrown/sequencing/reference_genomes/spikes/bowtie2_index/spikes
+echo Aligning to: ${ref_index}
 
 mkdir bams
-for fq1 in *1.fastq.gz; do
-  fq2=${fq1%%1.fastq.gz}'2.fastq.gz'
+echo Aligning read pairs to reference: ${ref_index}
+for fq1 in *R1*.fastq.gz; do
+  fq2=${fq1/R1/R2}
+  bam=${fq1/R1_/}
+  bam=${bam%%.fastq.gz}'.bam'
   echo $fq1
   echo $fq2
-  echo ${fq1%%_1.fastq.gz}'.bam'
-  bowtie2 -q -p 4 -X 1500 -x $ref -1 $fq1 -2 $fq2 | samtools sort -O BAM > bams/${fq1%%_1.fastq.gz}'.bam'
+  echo $bam
+  bowtie2 -q -p 6 -X 1000 -x $ref_index -1 $fq1 -2 $fq2 | samtools sort -@ 6 -O BAM > bams/$bam
 done

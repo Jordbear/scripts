@@ -1,55 +1,47 @@
 #!/bin/bash
-mkdir dmarked
-mkdir dmarked/qc
+mkdir qc
 
-ref=/mnt/e/ref_bacteria/T/E_coli_tfs/e_coli_tfs.fasta
+ref=/Users/jordanbrown/sequencing/reference_genomes/spikes/new_spike-J02459.1.fa
+
 
 for bam in *.bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar MarkDuplicates \
-  I=$bam \
-  O=dmarked/${bam%%.bam}'_dmarked.bam' \
-  M=dmarked/qc/${bam%%.bam}'_dups.tsv'
-done
-
-for bam in dmarked/*.bam; do
-  echo $bam
-  base=${bam##dmarked/}
-  echo $base
-  java -jar /mnt/e/picard.jar CollectAlignmentSummaryMetrics \
+  java -jar $PICARD CollectAlignmentSummaryMetrics \
   R=$ref \
   I=$bam \
-  O=dmarked/qc/${base%%.bam}'_alignment.tsv'
+  O=qc/${bam%%.bam}'_alignment.tsv' \
+  USE_JDK_DEFLATER=true \
+  USE_JDK_INFLATER=true
 done
 
-for bam in dmarked/*.bam; do
+for bam in *.bam; do
   echo $bam
-  base=${bam##dmarked/}
-  echo $base
   java -jar /mnt/e/picard.jar CollectInsertSizeMetrics \
   I=$bam \
-  O=dmarked/qc/${base%%.bam}'_inserts.tsv' \
-  H=dmarked/qc/${base%%.bam}'_inserts.pdf'
+  O=qc/${bam%%.bam}'_inserts.tsv' \
+  H=qc/${bam%%.bam}'_inserts.pdf' \
+  USE_JDK_DEFLATER=true \
+  USE_JDK_INFLATER=true
 done
 
-for bam in dmarked/*.bam; do
+for bam in *.bam; do
   echo $bam
-  base=${bam##dmarked/}
-  echo $base
   java -jar /mnt/e/picard.jar CollectGcBiasMetrics \
   I=$bam \
-  O=dmarked/qc/${base%%.bam}'_gc.tsv' \
-  CHART=dmarked/qc/${base%%.bam}'_gc.pdf' \
-  S=dmarked/qc/${base%%.bam}'_gcsummary.tsv' \
-  R=$ref
+  O=qc/${bam%%.bam}'_gc.tsv' \
+  CHART=qc/${bam%%.bam}'_gc.pdf' \
+  S=qc/${bam%%.bam}'_gcsummary.tsv' \
+  R=$ref \
+  USE_JDK_DEFLATER=true \
+  USE_JDK_INFLATER=true
 done
 
-for bam in dmarked/*bam; do
+for bam in *bam; do
   echo $bam
-  base=${bam##dmarked/}
-  echo $base
   java -jar /mnt/e/picard.jar CollectWgsMetrics \
   I=$bam \
-  O=dmarked/qc/${base%%.bam}'_wgs.tsv' \
-  R=$ref
+  O=qc/${bam%%.bam}'_wgs.tsv' \
+  R=$ref \
+  USE_JDK_DEFLATER=true \
+  USE_JDK_INFLATER=true
 done
