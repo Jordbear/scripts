@@ -6,6 +6,7 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.width', 200)
 import glob
 from matplotlib import pyplot as plt
+from matplotlib import ticker as ticker
 import seaborn as sns
 sns.set_style('white', {'axes.grid': True, 'xtick.bottom': True, 'ytick.left': True})
 sns.set_context(rc={'patch.linewidth': '0.0'})
@@ -103,7 +104,7 @@ variable = 'sample'
 def barplot(y, variable):
     fig = plt.figure(figsize=(11, 7))
     ax = fig.add_subplot(1, 1, 1)
-    plot = sns.catplot(x='X1', y=y, hue=variable, units='sample', dodge=False, row='sample', kind='bar', height=2, aspect=2, data=dfc)
+    plot = sns.catplot(x='X1', y=y, hue=variable, units='sample', dodge=False, col='sample', col_wrap=4, kind='bar', height=2, aspect=2, data=dfc)
    
     # for ax in plot.axes.flat:
     #     for lb in ax.get_xticklabels():
@@ -130,18 +131,16 @@ def barplot(y, variable):
     
     for ax in plot.axes.flat:
         ax.set(xlim=(None, xmax))
-        for label in ax.get_xticklabels():
-            if np.int(label.get_text())%10==0:
-                label.set_visible(True)
-            else:
-                label.set_visible(False)
-        
+        ax.xaxis.set_major_locator(ticker.MultipleLocator(10))
+        ax.xaxis.set_major_formatter(ticker.ScalarFormatter())
+
+
     # plot.set_xlabel('')
     # plot.legend(loc='center right', bbox_to_anchor=(1.11, 0.5), framealpha=1)#.remove()
     
     plt.subplots_adjust(wspace=0.1)
     
-    plt.savefig(y+'.png', format='png', dpi=500, bbox_inches='tight')
+    plt.savefig(y+'_split.png', format='png', dpi=500, bbox_inches='tight')
 
 
 barplot('X2', variable)
