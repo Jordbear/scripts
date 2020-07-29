@@ -13,11 +13,11 @@ sns.set_palette(sns.color_palette(['#ce0e2d', '#005cb9', '#f5a800', '#45c2b1', '
 
 
 
-files = sorted(glob.glob('*_coverage.tsv'))
+files = sorted(glob.glob('*_coverage_hist.tsv'))
 
 
-names = [i.replace('_coverage.tsv', '') for i in files]
-names = [i.replace('_dmarked_coverage.tsv.tsv', '') for i in names]
+names = [i.replace('_coverage_hist.tsv', '') for i in files]
+names = [i.replace('_dmarked_coverage_hist.tsv', '') for i in names]
 print(names)
 print('')
 
@@ -37,32 +37,44 @@ print('')
 
 dfl = [pd.read_csv(f, sep='\t', header=None, prefix='X') for f in files]
 for i in dfl:
-    print(i)
+    print(i.head())
     print('')
 
 count = 0
 for i in dfl:
     i['sample'] = names[count]
     i['group'] = groups[count]
-    print(dfl[count])
+    print(dfl[count].head())
     count+=1
 
 dfc = pd.concat(dfl, axis=0)
-print(dfc)
+print(dfc.head())
 print('')
 
 dfc = dfc[dfc.X0=='all']
-print(dfc)
-print('')
-
-print(dfc['X2'].max()/200)
-print(dfc['X1'].mean())
-dfc = dfc[(dfc.X2>(dfc['X2'].max()/200)) | (dfc.X1<(dfc['X1'].mean()))]
 print(len(dfc.index))
 print(dfc.head())
 print('')
 
-variable = 'group'
+# print(dfc['X2'].max()/200)
+# print(dfc['X1'].mean())
+# dfc = dfc[(dfc.X2>(dfc['X2'].max()/200)) | (dfc.X1<(dfc['X1'].mean()))]
+# print(len(dfc.index))
+# print(dfc.head())
+# print('')
+
+print(dfc['X2'].max())
+print(dfc['X2'].max()/50)
+dfq = dfc[(dfc.X2>(dfc['X2'].max()/50))]
+print(len(dfq.index))
+print(dfq.head())
+print('')
+
+xmax = dfq['X1'].max()
+print(xmax)
+
+
+variable = 'sample'
 
 
 # fig = plt.figure(figsize=(11, 7))
@@ -91,7 +103,7 @@ variable = 'group'
 def barplot(y, variable):
     fig = plt.figure(figsize=(11, 7))
     ax = fig.add_subplot(1, 1, 1)
-    plot = sns.catplot(x='X1', y=y, hue=variable, units='group', dodge=False, row='group', kind='bar', height=2, aspect=2, data=dfc)
+    plot = sns.catplot(x='X1', y=y, hue=variable, units='sample', dodge=False, row='sample', kind='bar', height=2, aspect=2, data=dfc)
    
     # for ax in plot.axes.flat:
     #     for lb in ax.get_xticklabels():
@@ -117,6 +129,7 @@ def barplot(y, variable):
     #     ax.set_ylabel('')
     
     for ax in plot.axes.flat:
+        ax.set(xlim=(None, xmax))
         for label in ax.get_xticklabels():
             if np.int(label.get_text())%10==0:
                 label.set_visible(True)
