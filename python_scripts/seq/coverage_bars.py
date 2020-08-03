@@ -6,7 +6,6 @@ pd.set_option('display.max_rows', None)
 pd.set_option('display.width', 200)
 import glob
 from matplotlib import pyplot as plt
-from matplotlib import ticker as ticker
 import seaborn as sns
 sns.set_style('white', {'axes.grid': True, 'xtick.bottom': True, 'ytick.left': True})
 sns.set_context(rc={'patch.linewidth': '0.0'})
@@ -14,16 +13,16 @@ sns.set_palette(sns.color_palette(['#ce0e2d', '#005cb9', '#f5a800', '#45c2b1', '
 
 
 
-files = sorted(glob.glob('*_coverage_hist.tsv'))
-
-
-names = [i.replace('_coverage_hist.tsv', '') for i in files]
-names = [i.replace('_dmarked_coverage_hist.tsv', '') for i in names]
-print(names)
+files = sorted(glob.glob('*_coverage-J02459.1.tsv'))
+print(files)
 print('')
 
-groups = [re.sub(r'_L.*_coverage.tsv', '', i) for i in files]
-print(groups)
+sample = [i.replace('_coverage-J02459.1.tsv', '') for i in files]
+print(sample)
+print('')
+
+group = [re.sub(r'_L.*_mCtoT_all.stats', '', i) for i in files]
+print(group)
 print('')
 
 
@@ -37,42 +36,46 @@ print('')
 # print('')
 
 dfl = [pd.read_csv(f, sep='\t', header=None, prefix='X') for f in files]
-for i in dfl:
-    print(i.head())
-    print('')
+print(dfl)
+print('')
+
+
+# dfc['conversion'] = dfc['MODIFIED']/(dfc['MODIFIED']+dfc['UNMODIFIED'])*100
+# print(dfc)
+# print('')
+
+# dfc['sample']=names
+# print(dfc)
+# print('')
+
+# dfc['group']=group
+# print(dfc)
+# print('')
 
 count = 0
 for i in dfl:
-    i['sample'] = names[count]
-    i['group'] = groups[count]
+    i['sample'] = sample[count]
+    i['group'] = group[count]
     print(dfl[count].head())
     count+=1
+
 
 dfc = pd.concat(dfl, axis=0)
 print(dfc.head())
 print('')
 
-dfc = dfc[dfc.X0=='all']
-print(len(dfc.index))
-print(dfc.head())
-print('')
-
-# print(dfc['X2'].max()/200)
-# print(dfc['X1'].mean())
-# dfc = dfc[(dfc.X2>(dfc['X2'].max()/200)) | (dfc.X1<(dfc['X1'].mean()))]
-# print(len(dfc.index))
-# print(dfc.head())
+# box = ['BO', 'OR', 'UM', 'OR', 'BO', 'UM', 'SI']
+# dfc['box']=box
+# print(dfc)
 # print('')
 
-print(dfc['X2'].max())
-print(dfc['X2'].max()/50)
-dfq = dfc[(dfc.X2>(dfc['X2'].max()/50))]
-print(len(dfq.index))
-print(dfq.head())
-print('')
+# pos = ['None', 'None', 'None', 'None', 'None', 'None', 'None']
+# dfc['pos']=pos
+# print(dfc)
+# print('')
 
-xmax = dfq['X1'].max()
-print(xmax)
+dfc.to_csv('conversion_summary.tsv', sep='\t')
+
 
 
 variable = 'sample'
@@ -83,7 +86,7 @@ variable = 'sample'
 # plot = sns.barplot(x='sample', y='TOTAL_READS', hue=variable, units='sample', dodge=False, data=dfc)
 
 # for lb in plot.get_xticklabels():
-#     lb.set_rotation(90)
+#     lb.set_rotation(90)   
 
 # for p in plot.patches:
 #     if np.isnan(p.get_height())==False:
@@ -96,7 +99,7 @@ variable = 'sample'
 # ax.get_yaxis().set_major_formatter(plt.FuncFormatter(commas))
 
 # plot.set_xlabel('')
-# plot.legend(loc='center right', bbox_to_anchor=(1.11, 0.5), framealpha=1).remove()
+# plot.legend(loc='center right', bbox_to_anchor=(1.11, 0.5), framealpha=1)
 
 # plt.savefig('TOTAL_READS-grouped_by_'+variable+'.png', format='png', dpi=500, bbox_inches='tight')
 
@@ -104,12 +107,10 @@ variable = 'sample'
 def barplot(y, variable):
     fig = plt.figure(figsize=(11, 7))
     ax = fig.add_subplot(1, 1, 1)
-    plot = sns.catplot(x='X1', y=y, hue=variable, units='sample', dodge=False, row='sample', kind='bar', height=1, aspect=4, data=dfc)
+    plot = sns.barplot(x='sample', y=y, hue=variable, units='sample', dodge=False, ci='sd', data=dfc)
     
-   
-    # for ax in plot.axes.flat:
-    #     for lb in ax.get_xticklabels():
-    #         lb.set_rotation(90)
+    for lb in plot.get_xticklabels():
+        lb.set_rotation(90)   
     
     # for p in plot.patches:
     #     if np.isnan(p.get_height())==False:
@@ -121,40 +122,15 @@ def barplot(y, variable):
     
     # ax.set_ylim(top=ax.get_ylim()[1]*(1+(0.8/len(names))))
     
-    plot.set_axis_labels('Coverage Depth', 'Frequency')
-
-    plot.set_titles('')
-
-
-    # plot.set_xlabel('Coverage Depth')
-    # plot.set_ylabel('')
+    plot.set_xlabel('')
+    plot.set_ylabel('X coverage')
+    plot.legend(loc='center right', bbox_to_anchor=(1.11, 0.5), framealpha=1).remove()
     
-    # for ax in plot.axes.flat:
-    #     ax.set_xlabel('')
-    #     ax.set_ylabel('')
-    
-    for ax in plot.axes.flat:
-        ax.set(xlim=(None, xmax))
-        ax.xaxis.set_major_locator(ticker.MultipleLocator(10))
-        ax.xaxis.set_major_formatter(ticker.ScalarFormatter())
+    plt.savefig(y+'_lambda.png', format='png', dpi=500, bbox_inches='tight')
 
 
-    # plot.set_xlabel('')
-    # plot.legend(loc='center right', bbox_to_anchor=(1.11, 0.5), framealpha=1)#.remove()
-    
-    plt.subplots_adjust(hspace=0.1)
-    
-    count=0
-    for ax in plot.axes.flat:
-        ax.set_title(names[count], ha='left', x=1.02, pad=-40)
-        count+=1
-wd
-    
-    plt.savefig(y+'.png', format='png', dpi=500, bbox_inches='tight')
-
-
-barplot('X2', variable)
-# barplot('PF_MISMATCH_RATE', variable)
+barplot('X4', variable)
+# barplot('MEAN_MODIFICATION_RATE_PERCENT', variable)
 # barplot('PF_HQ_ERROR_RATE', variable)
 # barplot('PF_INDEL_RATE', variable)
 # barplot('PCT_CHIMERAS', variable)
