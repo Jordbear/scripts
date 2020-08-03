@@ -19,5 +19,5 @@ for bam in *bam; do
   O=coverage/${bam%%.bam}"_wgs-$interval.tsv" \
   R=$ref \
   INTERVALS=coverage/interval_list-$interval.tsv \
-  COVERAGE_CAP=1000000
+  COVERAGE_CAP=100000
 done
