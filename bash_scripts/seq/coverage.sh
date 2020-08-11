@@ -1,7 +1,8 @@
 #!/bin/bash
-annotation=/Users/jordanbrown/sequencing/reference_genomes/spikes/J02459.1.bed
-mkdir coverage
+annotation=/Users/jordanbrown/sequencing/references/spikes/J02459.1.bed
+rname=J02459.1
+mkdir "coverage-${rname}"
 for bam in *.bam; do
   echo $bam
-  bedtools coverage -a $annotation -b $bam -hist > coverage/${bam%%.bam}'_coverage.tsv'
+  bedtools coverage -a $annotation -b $bam -d > coverage-${rname}/${bam%%.bam}'_coverage.tsv'
 done
