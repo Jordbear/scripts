@@ -13,11 +13,11 @@ sns.set_palette(sns.color_palette(['#ce0e2d', '#005cb9', '#f5a800', '#45c2b1', '
 
 
 
-files = sorted(glob.glob('*_coverage-J02459.1.tsv'))
+files = sorted(glob.glob('*_coverage.tsv'))
 print(files)
 print('')
 
-sample = [i.replace('_coverage-J02459.1.tsv', '') for i in files]
+sample = [i.replace('_coverage.tsv', '') for i in files]
 print(sample)
 print('')
 
@@ -107,7 +107,8 @@ variable = 'sample'
 def barplot(y, variable):
     fig = plt.figure(figsize=(11, 7))
     ax = fig.add_subplot(1, 1, 1)
-    plot = sns.barplot(x='sample', y=y, hue=variable, units='sample', dodge=False, ci='sd', data=dfc)
+    plot = sns.barplot(x='sample', y=y, hue=variable, units='sample', dodge=False, ci='sd', capsize=0.2, data=dfc)
+    
     
     for lb in plot.get_xticklabels():
         lb.set_rotation(90)   
@@ -126,7 +127,7 @@ def barplot(y, variable):
     plot.set_ylabel('X coverage')
     plot.legend(loc='center right', bbox_to_anchor=(1.11, 0.5), framealpha=1).remove()
     
-    plt.savefig(y+'_lambda.png', format='png', dpi=500, bbox_inches='tight')
+    plt.savefig(y+'_unmodified_2kb.png', format='png', dpi=500, bbox_inches='tight')
 
 
 barplot('X4', variable)
