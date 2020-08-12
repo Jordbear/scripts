@@ -1,5 +1,6 @@
 #!/bin/bash
 mkdir rd
+mkdir rd/qc
 
 for bam in *.bam; do
   echo $bam
