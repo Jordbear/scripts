@@ -74,7 +74,7 @@ print('')
 # print(dfc)
 # print('')
 
-dfc.to_csv('conversion_summary.tsv', sep='\t')
+dfc.to_csv('coverage_summary.tsv', sep='\t')
 
 
 
@@ -127,7 +127,7 @@ def barplot(y, variable):
     plot.set_ylabel('X coverage')
     plot.legend(loc='center right', bbox_to_anchor=(1.11, 0.5), framealpha=1).remove()
     
-    plt.savefig(y+'_unmodified_2kb.png', format='png', dpi=500, bbox_inches='tight')
+    plt.savefig(y+'.png', format='png', dpi=500, bbox_inches='tight')
 
 
 barplot('X4', variable)
