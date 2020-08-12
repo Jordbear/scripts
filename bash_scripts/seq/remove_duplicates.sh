@@ -3,7 +3,7 @@ mkdir rd
 
 for bam in *.bam; do
   echo $bam
-  java -jar /mnt/e/picard.jar MarkDuplicates \
+  java -jar $PICARD MarkDuplicates \
   I=$bam \
   O=rd/${bam%%.bam}'_rd.bam' \
   M=rd/qc/${bam%%.bam}'_dups.tsv' \
