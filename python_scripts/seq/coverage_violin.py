@@ -123,7 +123,7 @@ def barplot(y, variable):
     
     # ax.set_ylim(top=ax.get_ylim()[1]*(1+(0.8/len(names))))
     
-    # plot.set(ylim=(0, None))
+    plot.set(ylim=(0, None))
     
     plot.set_xlabel('')
     plot.set_ylabel('X coverage')
