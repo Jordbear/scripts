@@ -16,4 +16,4 @@ sudo apt-get -y bwa
 
 wget $picard
 tar -zxf ${picard##*/}
-rm ${trimmomatic##*/}
+rm ${picard##*/}
