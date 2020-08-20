@@ -12,7 +12,7 @@ wget $trimmomatic
 unzip ${trimmomatic##*/}
 rm ${trimmomatic##*/}
 
-sudo apt-get -y bwa
+sudo apt-get -y install bwa
 
 wget $picard
 tar -zxf ${picard##*/}
