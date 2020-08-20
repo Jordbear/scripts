@@ -19,7 +19,7 @@ tar -zxf ${picard##*/}
 rm ${picard##*/}
 
 sudo apt-get -y install python3-pip
-pip3 install -y astair
+pip3 install astair
 
 
 sudo reboot
