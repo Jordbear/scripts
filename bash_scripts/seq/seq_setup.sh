@@ -9,9 +9,11 @@ mkdir ~/seq_tools
 cd ~/seq_tools
 
 wget $trimmomatic
-tar -xzf ${trimmomatic##*/}
+unzip ${trimmomatic##*/}
+rm ${trimmomatic##*/}
 
 sudo apt-get -y bwa
 
 wget $picard
-tar -xzf ${picard##*/}
+tar -zxf ${picard##*/}
+rm ${trimmomatic##*/}
