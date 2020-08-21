@@ -5,6 +5,8 @@ picard_link=https://github.com/broadinstitute/picard/releases/download/2.23.3/pi
 sudo apt-get -y update
 sudo apt-get -y upgrade
 
+sudo apt-get install -y openjdk-11-jdk
+
 mkdir ~/seq_tools
 cd ~/seq_tools
 
@@ -23,7 +25,6 @@ sudo apt-get -y install samtools
 wget $picard_link
 picard_jar=`pwd`'/picard.jar'
 echo 'PICARD='$picard_jar >> ~/.bashrc
-
 
 sudo apt-get -y install python3-pip
 pip3 install astair
