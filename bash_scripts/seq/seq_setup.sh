@@ -14,7 +14,7 @@ sudo apt-get install -y unzip
 unzip $timmomatic_compressed
 rm $timmomatic_compressed
 trimmomatic_jar=`pwd`${timmomatic_compressed%%.zip}'/trimmomatic.jar'
-echo '$PATH'"=$picard_jar" >> /etc/environemnt
+sudo echo '$PATH'"=$picard_jar" >> /etc/environemnt
 
 sudo apt-get -y install bwa
 
@@ -22,7 +22,7 @@ sudo apt-get -y install samtools
 
 wget $picard_link
 picard_jar=`pwd`'/picard.jar'
-echo '$PATH'"=$picard_jar" >> /etc/environemnt
+sudo echo '$PATH'"=$picard_jar" >> /etc/environemnt
 
 
 sudo apt-get -y install python3-pip
