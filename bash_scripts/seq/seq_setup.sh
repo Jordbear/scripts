@@ -14,7 +14,7 @@ sudo apt-get install -y unzip
 unzip $timmomatic_compressed
 rm $timmomatic_compressed
 trimmomatic_jar=`pwd`'/'${timmomatic_compressed%%.zip}'/'${timmomatic_compressed%%.zip}'.jar'
-echo '$TRIMMOMATIC="'$trimmomatic_jar'"' >> ~/.bashrc
+echo 'TRIMMOMATIC='$trimmomatic_jar >> ~/.bashrc
 
 sudo apt-get -y install bwa
 
@@ -22,7 +22,7 @@ sudo apt-get -y install samtools
 
 wget $picard_link
 picard_jar=`pwd`'/picard.jar'
-echo '$PICARD="'$picard_jar'"' >> ~/.bashrc
+echo 'PICARD='$picard_jar >> ~/.bashrc
 
 
 sudo apt-get -y install python3-pip
