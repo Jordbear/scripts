@@ -1,6 +1,6 @@
 #!/bin/bash
-trimmomatic=http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
-picard=https://github.com/broadinstitute/picard/archive/2.23.3.tar.gz
+trimmomatic_link=http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
+picard_link=https://github.com/broadinstitute/picard/releases/download/2.23.3/picard.jar
 
 sudo apt-get -y update
 sudo apt-get -y upgrade
@@ -8,15 +8,22 @@ sudo apt-get -y upgrade
 mkdir ~/seq_tools
 cd ~/seq_tools
 
-wget $trimmomatic
-unzip ${trimmomatic##*/}
-rm ${trimmomatic##*/}
+wget $trimmomatic_link
+timmomatic_compressed=${trimmomatic_link##*/}
+sudo apt-get install -y unzip
+unzip $timmomatic_compressed
+rm $timmomatic_compressed
+trimmomatic_jar=`pwd`${timmomatic_compressed%%.zip}'/trimmomatic.jar'
+echo '$PATH'"=$picard_jar" >> /etc/environemnt
 
 sudo apt-get -y install bwa
 
-wget $picard
-tar -zxf ${picard##*/}
-rm ${picard##*/}
+sudo apt-get -y install samtools
+
+wget $picard_link
+picard_jar=`pwd`'/picard.jar'
+echo '$PATH'"=$picard_jar" >> /etc/environemnt
+
 
 sudo apt-get -y install python3-pip
 pip3 install astair
