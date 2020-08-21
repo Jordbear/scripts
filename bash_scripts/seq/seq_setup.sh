@@ -18,7 +18,7 @@ sudo apt-get install -y unzip
 unzip $timmomatic_compressed
 rm $timmomatic_compressed
 trimmomatic=${timmomatic_compressed%%.zip}
-trimmomatic_jar=`pwd`'/'$timmomatic'/trimmomatic-'${timmomatic/T/t}'.jar'
+trimmomatic_jar=`pwd`'/'$trimmomatic'/'${trimmomatic/T/t}'.jar'
 echo 'TRIMMOMATIC='$trimmomatic_jar >> ~/.bashrc
 
 sudo apt-get -y install bwa
