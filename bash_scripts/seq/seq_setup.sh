@@ -17,7 +17,8 @@ timmomatic_compressed=${trimmomatic_link##*/}
 sudo apt-get install -y unzip
 unzip $timmomatic_compressed
 rm $timmomatic_compressed
-trimmomatic_jar=`pwd`'/'${timmomatic_compressed%%.zip}'/'${timmomatic_compressed%%.zip}'.jar'
+trimmomatic=${timmomatic_compressed%%.zip}
+trimmomatic_jar=`pwd`'/'$timmomatic'/trimmomatic-'${timmomatic/T/t}'.jar'
 echo 'TRIMMOMATIC='$trimmomatic_jar >> ~/.bashrc
 
 sudo apt-get -y install bwa
@@ -30,6 +31,7 @@ echo 'PICARD='$picard_jar >> ~/.bashrc
 
 wget $bedtools_link
 chmod u+x bedtools.static.binary
+wait
 mv bedtools.static.binary ~/.local/bin/bedtools
 
 sudo apt-get -y install python3-pip
