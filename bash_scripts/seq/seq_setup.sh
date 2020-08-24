@@ -31,8 +31,8 @@ echo 'PICARD='$picard_jar >> ~/.bashrc
 
 wget $bedtools_link
 chmod u+x bedtools.static.binary
-ls
-mv "$HOME/seq_tools/bedtools.static.binary" "$HOME/.local/bin/bedtools"
+mv bedtools.static.binary bedtools
+mv $HOME/seq_tools/bedtools $HOME/.local/bin/
 
 sudo apt-get -y install python3-pip
 pip3 install astair
