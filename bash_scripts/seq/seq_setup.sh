@@ -31,6 +31,7 @@ echo 'PICARD='$picard_jar >> ~/.bashrc
 
 wget $bedtools_link
 chmod u+x bedtools.static.binary
+cd .
 mv ~/seq_tools/bedtools.static.binary ~/.local/bin/bedtools
 
 sudo apt-get -y install python3-pip
