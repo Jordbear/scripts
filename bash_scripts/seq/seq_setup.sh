@@ -37,15 +37,15 @@ sudo mv bedtools.static.binary /usr/local/bin/bedtools
 sudo apt-get -y install python3-pip
 pip3 install astair
 
-python3 -m pip install --user --upgrade cutadapt
-echo PATH=$PATH:~/.local/bin >> ~/.profile
+pip3 install cutadapt
+echo 'PATH=$PATH:~/.local/bin' >> ~/.profile
 wget $trimgalore_link
 trimgalore_compressed=${trimgalore_link##*/}
 tar -xvf ${trimgalore_compressed}
 rm ${trimgalore_compressed}
 trimgalore=${trimgalore_compressed%%.tar.gz}
 trimgalore_dir=`pwd`'/TrimGalore-'$trimgalore
-echo PATH=$PATH:$trimgalore_dir >> ~/.profile
+echo 'PATH=$PATH:$trimgalore_dir' >> ~/.profile
 sudo apt-get install -y pigz
 
 
