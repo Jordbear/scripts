@@ -45,6 +45,7 @@ rm ${trimgalore_compressed}
 trimgalore=${trimgalore_compressed%%.tar.gz}
 trimgalore_dir=`pwd`'/TrimGalore-'$trimgalore
 echo PATH=$PATH:$trimgalore_dir >> ~/.profile
+sudo apt-get install -y pigz
 
 
 
