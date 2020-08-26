@@ -2,6 +2,7 @@
 trimmomatic_link=http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.39.zip
 picard_link=https://github.com/broadinstitute/picard/releases/download/2.23.3/picard.jar
 bedtools_link=https://github.com/arq5x/bedtools2/releases/download/v2.29.2/bedtools.static.binary
+trimgalore_link=https://github.com/FelixKrueger/TrimGalore/archive/0.6.5.tar.gz
 
 
 sudo apt-get -y update
@@ -35,6 +36,16 @@ sudo mv bedtools.static.binary /usr/local/bin/bedtools
 
 sudo apt-get -y install python3-pip
 pip3 install astair
+
+python3 -m pip install --user --upgrade cutadapt
+wget $trimgalore_link
+timgalore_compressed=${trimgalore_link##*/}
+tar xzf ${trimgalore_compressed}
+rm ${trimgalore_compressed}
+trimgalore=${timgalore_compressed%%.tar.gz}
+trimgalore_sh=`pwd`'/Trimgalore-'$trimgalore'/trim_galore'
+echo $trimgalore_sh >> ~/.profile
+
 
 
 sudo reboot
