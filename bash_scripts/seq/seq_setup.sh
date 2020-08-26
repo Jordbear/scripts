@@ -42,8 +42,8 @@ wget $trimgalore_link
 trimgalore_compressed=${trimgalore_link##*/}
 tar -xvf ${trimgalore_compressed}
 rm ${trimgalore_compressed}
-trimgalore=${timgalore_compressed%%.tar.gz}
-trimgalore_dir=`pwd`'/Trimgalore-'$trimgalore'/trim_galore'
+trimgalore=${trimgalore_compressed%%.tar.gz}
+trimgalore_dir=`pwd`'/Trimgalore-'$trimgalore
 echo PATH=$PATH:$trimgalore_dir >> ~/.profile
 
 
