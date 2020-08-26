@@ -43,8 +43,8 @@ trimgalore_compressed=${trimgalore_link##*/}
 tar -xvf ${trimgalore_compressed}
 rm ${trimgalore_compressed}
 trimgalore=${timgalore_compressed%%.tar.gz}
-trimgalore_sh=`pwd`'/Trimgalore-'$trimgalore'/trim_galore'
-echo PATH=$PATH:$trimgalore_sh >> ~/.profile
+trimgalore_dir=`pwd`'/Trimgalore-'$trimgalore'/trim_galore'
+echo PATH=$PATH:$trimgalore_dir >> ~/.profile
 
 
 
