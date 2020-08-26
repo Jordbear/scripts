@@ -39,8 +39,8 @@ pip3 install astair
 
 python3 -m pip install --user --upgrade cutadapt
 wget $trimgalore_link
-timgalore_compressed=${trimgalore_link##*/}
-tar xzf ${trimgalore_compressed}
+trimgalore_compressed=${trimgalore_link##*/}
+tar -xvf ${trimgalore_compressed}
 rm ${trimgalore_compressed}
 trimgalore=${timgalore_compressed%%.tar.gz}
 trimgalore_sh=`pwd`'/Trimgalore-'$trimgalore'/trim_galore'
