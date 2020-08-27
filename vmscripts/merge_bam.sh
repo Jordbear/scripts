@@ -8,5 +8,5 @@ for bam in *_L001*.bam; do
   input=${bams//.\// I=}
   input=${input# }
   echo $input
-  java -jar $PICARD MergeSamFiles $input O=merged/${bam/_L001/} USE_JDK_DEFLATER=true USE_JDK_INFLATER=true
+  java -jar $PICARD MergeSamFiles $input O=merged/${bam/_L001/} USE_JDK_DEFLATER=true USE_JDK_INFLATER=true USE_THREADING=true
 done
