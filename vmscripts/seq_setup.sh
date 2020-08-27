@@ -21,6 +21,7 @@ fastqc_compressed=${fastqc_link##*/}
 unzip $fastqc_compressed
 rm $fastqc_compressed
 fastqc_dir=`pwd`'/FastQC'
+chmod u+x $fastqc_dir'/fastqc'
 echo 'PATH=$PATH:'$fastqc_dir >> ~/.profile
 
 wget $trimmomatic_link
