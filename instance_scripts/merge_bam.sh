@@ -3,7 +3,7 @@ mkdir merged
 for bam in *L001*.bam; do
   echo $bam
   echo ${bam%%_L001*}${bam##*L001}
-  bams=`find . -name "${bam%%_L001*}*${bam##*L001}" -print0 | sort -z`
+  bams=`find . -name "${bam%%_L001*}*${bam##*L001}" -print0 | sort -z | tr -d '\000'`
   echo $bams
   input=${bams//.\// I=}
   input=${input# }
