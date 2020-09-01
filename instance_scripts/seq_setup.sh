@@ -4,6 +4,7 @@ trimmomatic_link=http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/
 picard_link=https://github.com/broadinstitute/picard/releases/download/2.23.3/picard.jar
 bedtools_link=https://github.com/arq5x/bedtools2/releases/download/v2.29.2/bedtools.static.binary
 trimgalore_link=https://github.com/FelixKrueger/TrimGalore/archive/0.6.5.tar.gz
+bamutil_link=https://github.com/statgen/bamUtil/archive/v1.0.14.tar.gz
 
 
 sudo apt-get -y update
@@ -56,6 +57,18 @@ trimgalore=${trimgalore_compressed%%.tar.gz}
 trimgalore_dir=`pwd`'/TrimGalore-'$trimgalore
 echo 'PATH=$PATH:'$trimgalore_dir >> ~/.profile
 sudo apt-get install -y pigz
+
+wget $bamutil_link
+bamutil_compressed=${bamutil_link##*/}
+tar -xvf ${bamutil_compressed}
+rm ${bamutil_compressed}
+bamutil_version=${bamutil_compressed%%.tar.gz}
+bamutil_dir='bamUtil-'${bamutil_version#v}
+cd $bamutil_dir
+make cloneLib
+make
+sudo make install
+cd ..
 
 
 
