@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir rg
-for bam in .bam; do
+for bam in *.bam; do
   echo $bam
   java -jar $PICARD AddOrReplaceReadGroups \
   I=$bam \
