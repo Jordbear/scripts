@@ -13,5 +13,5 @@ for fq1 in *R1*.fq.gz; do
   echo $fq1
   echo $fq2
   echo $bam
-  bwa mem -t $threads -R "@RG\tID=$runid\tSM="${bam%.bam} $ref_index $fq1 $fq2 | samtools sort -@ $threads -O BAM > aligned/$bam
+  bwa mem -t $threads -R "@RG\tID=$runid\tSM=${bam%.bam}" $ref_index $fq1 $fq2 | samtools sort -@ $threads -O BAM > aligned/$bam
 done
