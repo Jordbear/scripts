@@ -18,7 +18,7 @@ for bam in *bam; do
   echo $ref
   java -jar $PICARD CollectSequencingArtifactMetrics \
   I=$bam \
-  O=artifacts/${bam%%.bam}"_artifacts-$interval.tsv" \
+  O=artifacts/${bam%%.bam}"_artifacts-$interval" \
   R=$ref \
   INTERVALS=artifacts/interval_list-$interval.tsv
 done
