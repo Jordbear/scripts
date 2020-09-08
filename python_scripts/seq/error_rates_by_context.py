@@ -21,7 +21,7 @@ names = [i.split('_S')[0] for i in files]
 print(names)
 print('')
 
-contigs = [re.search('artifacts-(.*).tsv', i)[1] for i in files]
+contigs = [re.search('artifacts-(.*).pre', i)[1] for i in files]
 print(contigs)
 print('')
 
@@ -78,7 +78,7 @@ print('')
 
 dfc['pct_error_rate'] = dfc['pct_error_rate'].mask(dfc['pct_error_rate'] < 0, 0)
 print(len(dfc.index))
-print(dfc.head())
+print(dfc)
 print('')
 
 # dfc_mm10 = dfc[dfc['sample'].str.contains('mm10')]

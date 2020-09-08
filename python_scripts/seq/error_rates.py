@@ -21,7 +21,7 @@ names = [i.split('_S')[0] for i in files]
 print(names)
 print('')
 
-contigs = [re.search('artifacts-(.*).tsv', i)[1] for i in files]
+contigs = [re.search('artifacts-(.*).err', i)[1] for i in files]
 print(contigs)
 print('')
 
