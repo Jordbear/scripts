@@ -22,5 +22,5 @@ for bam in *bam; do
   INTERVALS=artifacts/$interval.interval_list &
   ntasks=`jobs -p | wc -w`
   echo $ntasks
-  if [ $ntasks -ge 6 ]; then wait; fi
+  if [ $ntasks -ge 6 ]; then wait -n; fi
 done
