@@ -1,5 +1,5 @@
 #!/bin/bash
-mkdir test
+mkdir merged
 for fql1 in $(find . -name "*_L001_*.f???q.gz"); do
   echo $fql1
   fql1f=${fql1##*/}
@@ -8,5 +8,5 @@ for fql1 in $(find . -name "*_L001_*.f???q.gz"); do
   fqs=`find . -name "${fql1f%%_L001_*}*${fql1f##*_L001_}" -print0 | sort -z`
   fqs=${fqs//.\// }
   echo $fqs
-  cat $fqs > test/${fql1f%%_L001_*}'_'${fql1f##*_L001_}
+  cat $fqs > merged/${fql1f%%_L001_*}'_'${fql1f##*_L001_}
 done
