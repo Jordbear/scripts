@@ -1,6 +1,6 @@
 #!/bin/bash
 ref=/Users/jordanbrown/sequencing/references/spikes/J02459.1.fa
-rname=J02459.1-13
+rname=J02459.1
 mkdir "astair-${rname}"
 for i in *.bam; do
   echo $i
