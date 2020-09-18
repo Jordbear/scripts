@@ -7,5 +7,5 @@ for i in *.bam; do
   astair call -i $i -f $ref -d "astair-${rname}/" -md 10000 --minimum_base_quality 13 &
   ntasks=`jobs -p | wc -w`
   echo $ntasks
-  if [ $ntasks -ge 6 ]; then wait; fi
+  if [ $ntasks -ge 3 ]; then wait; fi
 done
