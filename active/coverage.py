@@ -97,23 +97,20 @@ dfc = dfc.sort_values(['condition', 'library', 'sample'])
 fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(1, 1, 1)
 plot = sns.relplot(x='X3', y='X4', kind='line', hue='condition', col='sample', col_wrap=6, units='sample', aspect=1.2, height=5, estimator=None, data=dfc)
-# sns.despine()
-axes = plot.axes.flatten()
-for ax in axes:
+for ax in plot.axes.flat:
     ax.set_xlabel('Position', size=20)
     ax.set_ylabel('Coverage Depth' , size=20)
     for i, spine in ax.spines.items():
         spine.set_visible(True)
-# plot.axes[1].set_xlabel('Position')
 plot.set_titles("{col_name}", pad=2, size=20)
-# plot.axes[0].set_ylabel('Coverage Depth')
 plot.set(xlim=(0, dfl[0]['X3'].max()))
 plot.set(ylim=(0, None))
 # ax.legend(loc='center right', bbox_to_anchor=(1.2, 0.5), framealpha=1).remove()
 def commas(x, pos):
     return '{:,}'.format(int(x))
 ax.get_xaxis().set_major_formatter(plt.FuncFormatter(commas))
-plt.subplots_adjust(wspace=0.1, hspace=0.1)
+plt.subplots_adjust(wspace=0.1, hspace=0.12)
+# plt.setp(plot._legend.get_texts(), fontsize=30)
 plt.savefig('coverage.png', format='png', dpi=500, bbox_inches='tight')
 
 # barplot('X4', variable)
