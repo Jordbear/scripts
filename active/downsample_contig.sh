@@ -19,13 +19,17 @@ for i in *.bam; do
   ratios+=($ratio)
 done
 
-printf '%s\t' ${samples[@]} > test.tsv
-echo $'\r' >> test.tsv
-printf '%s\t' ${contig_reads[@]} >> test.tsv
-echo $'\r' >> test.tsv
-printf '%s\t' ${total_reads[@]} >> test.tsv
-echo $'\r' >> test.tsv
-printf '%s\t' ${ratios[@]} >> test.tsv
+printf "sample"$'\t' > read_totals.tsv
+printf '%s\t' ${samples[@]} >> read_totals.tsv
+echo $'\r' >> read_totals.tsv
+printf "${contig}_reads"$'\t' >> read_totals.tsv
+printf '%s\t' ${contig_reads[@]} >> read_totals.tsv
+echo $'\r' >> read_totals.tsv
+printf "total_reads"$'\t' >> read_totals.tsv
+printf '%s\t' ${total_reads[@]} >> read_totals.tsv
+echo $'\r' >> read_totals.tsv
+printf "ratio"$'\t' >> read_totals.tsv
+printf '%s\t' ${ratios[@]} >> read_totals.tsv
 
 echo ${contig_reads[@]}
 
@@ -53,6 +57,9 @@ count=0
 for i in *.bam; do
   echo $i
   echo ${dprop[$count]}
-  java -jar $PICARD DownsampleSam I=$i O=downsampled_$contig/${i%%.bam}'_ds.bam' PROBABILITY=${dprop[$count]} USE_JDK_DEFLATER=true USE_JDK_INFLATER=true
+  java -jar $PICARD DownsampleSam I=$i O=downsampled_$contig/${i%%.bam}'_ds.bam' PROBABILITY=${dprop[$count]} USE_JDK_DEFLATER=true USE_JDK_INFLATER=true &
+  ntasks=`jobs -p | wc -w`
+  echo $ntasks
+  if [ $ntasks -ge 6 ]; then wait; fi
   count=$((count+1))
 done
