@@ -127,9 +127,9 @@ while count < 3:
         y = dfl[count].loc[dfl[count]['X3'] == x, 'X4'].iloc[0]
         width=401
         height=25
-        plot.axes[count].add_patch(patches.Rectangle(((x-(width/2)), 0), width=width, height=height, facecolor='black', alpha=0.01, zorder=10))
+        plot.axes[count].add_patch(patches.Rectangle(((x-(width/2)), 0), width=width, height=height, facecolor='black', alpha=0.01))
         # y = dfl[count].loc[dfl[count]['X3'] == x, 'X4'].iloc[0]
-        # size=1
+        # size=0.2
         # plot.axes[count].scatter(x, 30, s=size, c='black', zorder=10, alpha=1)
         # plot.axes[count].scatter(x, y, s=size, c='black', zorder=10, alpha=1)
     count+=1
