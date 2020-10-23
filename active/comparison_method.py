@@ -14,17 +14,19 @@ sns.set_context(rc={'patch.linewidth': '0.0'})
 sns.set_palette(sns.color_palette('muted'))
 
 
-dfl = [pd.read_csv('Book2.csv')]
+dfl = [pd.read_csv('Book3.csv')]
 print(dfl)
 print('')
 
 
+dfl[0]['a'] = 'a'
+
 count=0
 for i in dfl:
     print(dfl[count])
-    fig = plt.figure(figsize=(11, 7))
+    fig = plt.figure(figsize=(7, 7))
     ax = fig.add_subplot(1, 1, 1)
-    plot = sns.relplot(x='λ (%) CpG', y='BioA', ci=None, col='a', hue='Date', col_wrap=(1), kind='scatter', linewidth=0.2, height=3, aspect=1.05, s=30, data=dfl[count])
+    plot = sns.relplot(x='λ (%) CpG', y='BioA', ci=None, col='a', hue='Date', col_wrap=(1), kind='scatter', linewidth=0.2, height=3, aspect=1.08, s=30, data=dfl[count])
 
 
     for ax in plot.axes.flat:
@@ -59,28 +61,28 @@ for i in dfl:
 
     for ax in plot.axes.flat:
         ax.set_xlabel('Sequencing')
-        ax.set_ylabel('Bioanalyzer')
+        ax.set_ylabel('BioA')
     # plot.set_xlabel('')
     # plot.legend(loc='center right', bbox_to_anchor=(1.11, 0.5), framealpha=1).remove()
 
     plt.subplots_adjust(wspace=0.15, hspace=0.15)
 
-    # plt.savefig('piccy2.png', format='png', dpi=500, bbox_inches='tight')
+    plt.savefig('conversion_method.png', format='png', dpi=500, bbox_inches='tight')
     count+=1
 
 
 dfl[0] = dfl[0].dropna()
 
-correlation_matrix = np.corrcoef(dfl[0]['λ (%) CpG'].tolist(), dfl[0]['gel'].tolist())
+correlation_matrix = np.corrcoef(dfl[0]['λ (%) CpG'].tolist(), dfl[0]['BioA'].tolist())
 correlation_xy = correlation_matrix[0,1]
 r_squared = correlation_xy**2
 print(r_squared)
 
-slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(dfl[0]['λ (%) CpG'].tolist(), dfl[0]['gel'].tolist())
+slope, intercept, r_value, p_value, std_err = scipy.stats.linregress(dfl[0]['λ (%) CpG'].tolist(), dfl[0]['BioA'].tolist())
 print(r_value**2)
 print(std_err)
 
-print(scipy.stats.linregress(dfl[0]['λ (%) CpG'].tolist(), dfl[0]['gel'].tolist()))
+print(scipy.stats.linregress(dfl[0]['λ (%) CpG'].tolist(), dfl[0]['BioA'].tolist()))
 
 
 print('finished')

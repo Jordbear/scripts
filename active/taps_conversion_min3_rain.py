@@ -138,7 +138,7 @@ def barplot(y, variable):
 
 fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(1, 1, 1)
-plot = sns.relplot(x='START', y='pct_mod_rate2', kind='scatter', col='sample', col_wrap=5, units='sample', linewidth=0, aspect=1.2, height=5, estimator=None, data=dfc)
+plot = sns.relplot(x='START', y='pct_mod_rate2', kind='scatter', col='sample', col_wrap=5, units='sample', linewidth=0, aspect=1.6, height=5, estimator=None, data=dfc)
 for ax in plot.axes.flat:
     ax.set_xlabel('Position', size=20)
     ax.set_ylabel('Modification rate (%)' , size=20)
