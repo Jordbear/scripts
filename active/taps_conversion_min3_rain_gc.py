@@ -36,8 +36,10 @@ dfl = [pd.read_csv(f, sep='\t') for f in files]
 # print('')
 
 bed = pd.read_csv('J02459.1_100bpslidingwindows_nuc.bed', sep='\t')
+print(bed.head())
+print('')
 bed.set_index('4_usercol', inplace=True)
-print(bed.tail())
+print(bed.head())
 print('')
 
 for df in dfl:
