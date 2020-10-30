@@ -82,7 +82,7 @@ wget $bwameth_link
 unzip master.zip
 rm master.zip
 cd bwa-meth-master/
-sudo python setup.py install
+sudo python3 setup.py install
 
 
 sudo reboot
