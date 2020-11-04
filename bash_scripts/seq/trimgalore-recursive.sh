@@ -9,5 +9,5 @@ for fq1 in $(find . -name '*R1*.fastq.gz'); do
   echo $fq2
   echo ${fq1f}
   echo ${fq2f}
-  trim_galore --length 35 -o trimmed --no_report_file --clip_R1 1 --clip_R2 1 -j 4 --paired $fq1 $fq2
+  trim_galore --length 35 -o trimmed --no_report_file -j 4 --paired $fq1 $fq2
 done

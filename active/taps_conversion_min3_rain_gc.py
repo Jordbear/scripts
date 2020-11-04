@@ -35,7 +35,7 @@ dfl = [pd.read_csv(f, sep='\t') for f in files]
 # print(dfl)
 # print('')
 
-bed = pd.read_csv('J02459.1_100bpslidingwindows_nuc.bed', sep='\t')
+bed = pd.read_csv('/Users/jordanbrown/sequencing/references/spikes/J02459.1_100bpslidingwindows_nuc.bed', sep='\t')
 print(bed.head())
 print('')
 bed.set_index('4_usercol', inplace=True)
