@@ -43,11 +43,11 @@ print(bed.head())
 print('')
 
 for df in dfl:
-    df['GC'] = np.nan
+    df['%GC'] = np.nan
     for index, row in df.iterrows():
         pos = df.loc[index, 'START']
         if 50 <= pos <= 48389:
-            df.loc[index, 'GC'] = bed.loc[pos, '6_pct_gc']
+            df.loc[index, '%GC'] = bed.loc[pos, '6_pct_gc'] *100
         
     print(df.head())
 
@@ -92,6 +92,8 @@ dfc.to_csv('conversion_summary.tsv', sep='\t')
 # dfc = dfc.sort_values(['condition', 'library', 'sample'])
 
 variable = 'sample'
+
+dfc3 = dfc[dfc['sample'].isin(['S13-old-K-old-P-L1', 'S14-old-K-old-P-L2', 'S15-new-K-old-P-L1', 'S16-new-K-old-P-L2', 'S17-old-K-new-P-L1', 'S18-old-K-new-P-L2', 'S19-new-K-new-P-L1', 'S20-new-K-new-P-L2'])]
 
 
 # fig = plt.figure(figsize=(11, 7))
@@ -147,7 +149,7 @@ def barplot(y, variable):
     plt.savefig(y+'.png', format='png', dpi=500, bbox_inches='tight')
 
 
-# barplot('pct_mod_rate', variable)
+barplot('pct_mod_rate', variable)
 # barplot('MEAN_MODIFICATION_RATE_PERCENT', variable)
 # barplot('PF_HQ_ERROR_RATE', variable)
 # barplot('PF_INDEL_RATE', variable)
@@ -158,7 +160,7 @@ def barplot(y, variable):
 
 fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(1, 1, 1)
-plot = sns.relplot(x='START', y='pct_mod_rate2', kind='scatter', hue='GC', palette='seismic', col='sample', col_wrap=5, units='sample', linewidth=0, aspect=1.6, height=5, estimator=None, data=dfc)
+plot = sns.relplot(x='START', y='pct_mod_rate2', kind='scatter', hue='%GC', palette='coolwarm', col='sample', col_wrap=5, units='sample', linewidth=0, aspect=1.6, height=5, estimator=None, data=dfc3)
 for ax in plot.axes.flat:
     ax.set_xlabel('Position', size=20)
     ax.set_ylabel('Modification rate (%)' , size=20)
@@ -173,6 +175,6 @@ plot.set_titles("{col_name}", pad=2, size=20)
 # ax.get_xaxis().set_major_formatter(plt.FuncFormatter(commas))
 plt.subplots_adjust(wspace=0.1, hspace=0.12)
 # plt.setp(plot._legend.get_texts(), fontsize=30)
-plt.savefig('mod_by_pos.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('mod_by_pos3.png', format='png', dpi=500, bbox_inches='tight')
 
 print('finished')
