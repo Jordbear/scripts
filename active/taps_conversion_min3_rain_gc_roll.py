@@ -31,7 +31,7 @@ print('')
 
 
 
-dfl = [pd.read_csv(f, sep='\t') for f in files]
+dfl = [pd.read_csv(f, sep='\t', usecols=['START','MOD_LEVEL', 'MOD', 'UNMOD', 'CONTEXT', 'TOTAL_DEPTH']) for f in files]
 # print(dfl)
 # print('')
 
@@ -69,9 +69,9 @@ for i in dfl:
     dfl[count] = dfl[count][dfl[count]['CONTEXT'] == 'CpG']
     print(len(dfl[count].index))
     print(dfl[count].head())
-    dfl[count] = dfl[count][dfl[count]['TOTAL_DEPTH'] > 3]
-    print(len(dfl[count].index))
-    print(dfl[count].head())
+    # dfl[count] = dfl[count][dfl[count]['TOTAL_DEPTH'] > 3]
+    # print(len(dfl[count].index))
+    # print(dfl[count].head())
     dfl[count]['pct_mod_rate'] = dfl[count]['MOD'].sum()/(dfl[count]['MOD'].sum()+dfl[count]['UNMOD'].sum())*100
     print(len(dfl[count].index))
     print(dfl[count].head())
@@ -126,7 +126,7 @@ dfc3 = dfc[dfc['sample'].isin(['S17-HIS-CO-1', 'S18-HIS-CO-05', 'S19-HIS-CO-2', 
 def barplot(y, variable):
     fig = plt.figure(figsize=(11, 7))
     ax = fig.add_subplot(1, 1, 1)
-    plot = sns.barplot(x='sample', y=y, units='sample', hue='condition', dodge=False, data=dfc1)
+    plot = sns.barplot(x='sample', y=y, units='sample', hue='condition', dodge=False, data=dfc)
 
     for lb in plot.get_xticklabels():
         lb.set_rotation(90)
@@ -150,7 +150,7 @@ def barplot(y, variable):
             print(p.get_height())
             plot.text(p.get_x() + p.get_width() / 2, p.get_height() - 5, '*', ha='center', fontsize=20, weight=5)
 
-    plt.savefig(y+'1.png', format='png', dpi=500, bbox_inches='tight')
+    plt.savefig(y+'.png', format='png', dpi=500, bbox_inches='tight')
 
 
 barplot('pct_mod_rate', variable)
@@ -164,14 +164,15 @@ barplot('pct_mod_rate', variable)
 
 fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(1, 1, 1)
-plot = sns.relplot(x='START', y='pct_mod_rate2', kind='scatter', hue='GC', palette='coolwarm', col='sample', col_wrap=4, units='sample', linewidth=0, aspect=1.6, height=5, estimator=None, data=dfc1)
+plot = sns.relplot(x='START', y='pct_mod_rate2', kind='scatter', hue='GC', palette='coolwarm', col='sample', col_wrap=4, units='sample', linewidth=0, aspect=1.6, height=5, estimator=None, data=dfc)
 count=0
 for ax in plot.axes.flat:
     for i, spine in ax.spines.items():
         spine.set_visible(True)
-    sns.lineplot(x='START', y='rolling', estimator=None, color='black', zorder=1, linewidth=3, legend=False, data=dfl[count], ax=ax)
+    # sns.lineplot(x='START', y='rolling', estimator=None, color='black', zorder=1, linewidth=3, legend=False, data=dfl[count], ax=ax)
+    sns.scatterplot(x='START', y='rolling', color='black', zorder=1, size=3, linewidth=0, legend=False, data=dfl[count], ax=ax)
     if dfl[count]['pct_mod_rate2'].isnull().sum() > 0:
-        ax.text(20500, 3, str(dfl[count]['pct_mod_rate2'].isnull().sum())+' uncalled positions', size=25, weight='bold')
+        ax.text(20500, 3, 'Positions uncalled: '+str(dfl[count]['pct_mod_rate2'].isnull().sum()), size=25, weight='bold')
     ax.set_xlabel('Position', size=20)
     ax.set_ylabel('Modification rate (%)' , size=20)
     for i, spine in ax.spines.items():
@@ -186,6 +187,6 @@ plot.set_titles("{col_name}", pad=2, size=20)
 # ax.get_xaxis().set_major_formatter(plt.FuncFormatter(commas))
 plt.subplots_adjust(wspace=0.1, hspace=0.12)
 # plt.setp(plot._legend.get_texts(), fontsize=30)
-plt.savefig('mod_by_pos1-test.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('mod_by_pos.png', format='png', dpi=500, bbox_inches='tight')
 
 print('finished')
