@@ -83,14 +83,14 @@ dfc.to_csv('conversion_summary.tsv', sep='\t')
 
 # dfc = dfc.sort_values(['condition', 'library', 'sample'])
 
-dfc = dfc[dfc['sample'].isin(['S01-06K01P', 'S04-06C01P', 'S14-PyB-L1', 'S19-BSTL1'])]
+# dfc = dfc[dfc['sample'].isin(['S01-06K01P', 'S04-06C01P', 'S14-PyB-L1', 'S19-BSTL1'])]
 
 
 
 
 fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(1, 1, 1)
-plot = sns.relplot(x='#POSITION_(bp)', y='value', hue='variable', kind='line', linewidth=2, col='sample', col_wrap=2, units='sample', aspect=1.6, height=5, estimator=None, data=dfc)
+plot = sns.relplot(x='#POSITION_(bp)', y='value', hue='variable', kind='line', linewidth=2, col='sample', col_wrap=4, units='sample', aspect=1.6, height=5, estimator=None, data=dfc)
 for ax in plot.axes.flat:
     ax.set_xlabel('Cycle', size=20)
     ax.set_ylabel('Conversion rate (%)' , size=20)
