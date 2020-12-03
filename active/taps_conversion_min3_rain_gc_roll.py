@@ -25,6 +25,12 @@ conditions = [i[4:] for i in names]
 print(conditions)
 print('')
 
+number = [i.split('_S')[1] for i in files]
+number = [i.replace('_001_mCtoT_all.mods', '') for i in number]
+number = ['0'+i for i in number]
+number = [i[-2:] for i in number]
+print(number)
+print('')
 
 
 
@@ -32,7 +38,7 @@ dfl = [pd.read_csv(f, sep='\t', usecols=['START','MOD_LEVEL', 'MOD', 'UNMOD', 'C
 # print(dfl)
 # print('')
 
-bed = pd.read_csv('/Users/jordanbrown/sequencing/references/spikes/J02459.1_100bpslidingwindows_nuc.bed', sep='\t')
+bed = pd.read_csv('/Users/jordanbrown/sequencing/references/spikes/J02459.1/J02459.1_100bpslidingwindows_nuc.bed', sep='\t')
 print(bed.head())
 print('')
 bed.set_index('4_usercol', inplace=True)
@@ -53,36 +59,40 @@ for i in dfl:
     i['sample'] = names[count]
     print(len(dfl[count].index))
     print(dfl[count].head())
-    
+
     i['condition'] = conditions[count]
     print(len(dfl[count].index))
     print(dfl[count].head())
-    
+
+    i['number'] = number[count]
+    print(len(dfl[count].index))
+    print(dfl[count].head())
+
     dfl[count] = dfl[count][dfl[count]['CONTEXT'] == 'CpG']
     print(len(dfl[count].index))
     print(dfl[count].head())
-    
+
     dfl[count]['mean_call_rate'] = dfl[count]['MOD'].sum()/(dfl[count]['MOD'].sum()+dfl[count]['UNMOD'].sum())*100
     print(len(dfl[count].index))
     print(dfl[count].head())
-    
+
     dfl[count]['pos_mod_rate'] = dfl[count]['MOD']/(dfl[count]['MOD']+dfl[count]['UNMOD'])*100
     print(len(dfl[count].index))
     print(dfl[count].head())
-    
+
     for index, row in dfl[count].iterrows():
         if dfl[count].loc[index, 'MOD'] + dfl[count].loc[index, 'UNMOD'] < 3:
             print('happened')
             dfl[count].loc[index, 'pos_mod_rate'] = np.nan
-    
+
     dfl[count]['mean_pos_rate'] = dfl[count]['pos_mod_rate'].mean()
     print(len(dfl[count].index))
     print(dfl[count].head())
-    
+
     dfl[count]['rolling'] = dfl[count].rolling(window=100, center=True)['pos_mod_rate'].mean()
     print(len(dfl[count].index))
     print(dfl[count].head())
-    
+
     count+=1
 
 
@@ -94,7 +104,7 @@ print(len(dfc.index))
 print(dfc.head())
 print('')
 
-
+# dfc = dfc.sort_values(['number'])
 dfc.to_csv('conversion_summary.tsv', sep='\t')
 
 # dfc = dfc.sort_values(['condition', 'library', 'sample'])
