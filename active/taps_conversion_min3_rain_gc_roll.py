@@ -21,7 +21,7 @@ names = [i.rsplit('_S', 1)[0] for i in files]
 print(names)
 print('')
 
-conditions = [i[7:-2] for i in names]
+conditions = [i[4:6] for i in names]
 print(conditions)
 print('')
 
@@ -148,7 +148,7 @@ plt.savefig('mean_mod.png', format='png', dpi=500, bbox_inches='tight')
 
 fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(1, 1, 1)
-plot = sns.relplot(x='START', y='pos_mod_rate', kind='scatter', palette='coolwarm', col='sample', col_wrap=4, units='sample', linewidth=0, aspect=1.6, height=5, estimator=None, data=dfc)
+plot = sns.relplot(x='START', y='pos_mod_rate', kind='scatter', hue='GC', palette='coolwarm', col='sample', col_wrap=4, units='sample', linewidth=0, aspect=1.6, height=5, estimator=None, data=dfc)
 count=0
 for ax in plot.axes.flat:
     for i, spine in ax.spines.items():

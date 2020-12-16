@@ -103,7 +103,7 @@ dfc.to_csv('coverage_summary.tsv', sep='\t')
 
 fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(1, 1, 1)
-plot = sns.relplot(x='X3', y='X4', kind='line', hue='condition', col='sample', col_wrap=4, units='sample', aspect=1.6, height=5, estimator=None, data=dfc)
+plot = sns.relplot(x='X3', y='X4', kind='line', hue='condition', col='sample', col_wrap=6, units='sample', aspect=1.6, height=5, estimator=None, data=dfc)
 for ax in plot.axes.flat:
     ax.set_xlabel('Position', size=20)
     ax.set_ylabel('Coverage Depth' , size=20)
