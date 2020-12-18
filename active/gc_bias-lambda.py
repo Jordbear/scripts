@@ -24,8 +24,8 @@ conditions = [i[4:6] for i in names]
 print(conditions)
 print('')
 
-number = [i.split('_S')[1] for i in files]
-number = [i.replace('_001_mCtoT_all.mods', '') for i in number]
+number = [i.split('_S')[-1] for i in files]
+number = [i.replace('_001_gc.tsv', '') for i in number]
 number = ['0'+i for i in number]
 number = [i[-2:] for i in number]
 print(number)

@@ -25,8 +25,8 @@ conditions = [i[4:6] for i in names]
 print(conditions)
 print('')
 
-number = [i.split('_S')[1] for i in files]
-number = [i.replace('_001_mCtoT_all.mods', '') for i in number]
+number = [i.split('_S')[-1] for i in files]
+number = [i.replace('_001_gc.tsv', '') for i in number]
 number = ['0'+i for i in number]
 number = [i[-2:] for i in number]
 print(number)
@@ -113,11 +113,11 @@ ax1.legend(loc='center right', bbox_to_anchor=(1.5, 0.5), framealpha=1).remove()
 
 
 ax2.axes.axhline(1, color='grey', ls='--')
-sns.lineplot(x='GC', y='NORMALIZED_COVERAGE', hue='condition', units='sample', estimator=None, data=dfc, ax=ax2)
+sns.lineplot(x='GC', y='NORMALIZED_COVERAGE', hue='sample', units='sample', estimator=None, data=dfc, ax=ax2)
 ax2.set(xlim=(0, 100))
 ax2.set(ylim=(0, 2))
 # ax2.legend(loc='center right', bbox_to_anchor=(1.4, 0.5), framealpha=1).texts[0].set_text('Sample')
-ax2.legend(loc='center right', bbox_to_anchor=(1.5, 0.5), framealpha=1)#.remove()
+ax2.legend(loc='center right', bbox_to_anchor=(1.55, 0.5), framealpha=1)#.remove()
 ax2.grid(False)
 ax2.yaxis.tick_left()
 ax2.yaxis.set_label_position('left')
