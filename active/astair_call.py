@@ -336,3 +336,35 @@ summary['2kb positions CpX'] = sum_2kb_all['avg_pos_mod_rate']
 
 print(summary)
 summary.to_csv('conversion_summary.tsv', sep='\t', index=False)
+
+### generate summary plots
+def summary_plot(metric):
+    fig = plt.figure(figsize=(11, 7))
+    ax = fig.add_subplot(1, 1, 1)
+    plot = sns.barplot(x='sample', y=metric, units='sample', hue='sample', dodge=False, data=summary)
+    for lb in plot.get_xticklabels():
+        lb.set_rotation(90)
+    for p in plot.patches:
+        if np.isnan(p.get_height())==False:
+            if p.get_height()>=1:
+                value_format = '{:#.3g}'
+            else:
+                value_format = '{:.2f}'
+            plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, value_format.format(p.get_height()), fontsize=250/len(names), ha='center')
+    ax.set_ylim(top=ax.get_ylim()[1]*(1+(0.8/len(names))))
+    plot.set_xlabel('')
+    plot.set_ylabel('Modification rate (%)')
+    plot.legend(loc='center right', bbox_to_anchor=(1.24, 0.5), framealpha=1)#.remove()
+    # for p in plot.patches:
+    #     if np.isnan(p.get_height())==False and float('{:.5f}'.format(p.get_height())) in [95.57517, 95.78446, 95.56830, 95.72392, 95.45698, 95.61916, 95.59885, 95.69544]:
+    #         print(p.get_x() + p.get_width() / 2)
+    #         print(p.get_height())
+    #         plot.text(p.get_x() + p.get_width() / 2, p.get_height() - 5, '*', ha='center', fontsize=20, weight=5)
+    plt.savefig('mean_'+metric+'.png', format='png', dpi=500, bbox_inches='tight')
+
+summary_plot('lambda reads CpG')
+summary_plot('2kb reads CpG')
+summary_plot('pUC19 reads CpG')
+
+#1 sort out legend titles
+#2 add support for conditon grouping
