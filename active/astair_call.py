@@ -50,7 +50,7 @@ print('')
 ### add data columns to dataframes
 count = 0
 for i in dfl:
-    
+
     i['sample'] = names[count]
     print(len(i.index))
     print(i.head())
@@ -65,7 +65,7 @@ for i in dfl:
     # print(len(i.index))
     # print(i.head())
     # print('')
-    
+
     count+=1
 
 ### concatenate dataframes and sort by number
@@ -115,21 +115,21 @@ print(dfc_lambda.head())
 print('')
 
 for i in dfl_lambda:
-    
+
     i.reset_index(drop=True, inplace=True)
     print(i.head())
     print('')
-    
+
     i['avg_read_mod_rate'] = i['MOD'].sum()/(i['MOD'].sum()+i['UNMOD'].sum())*100
     print(len(i.index))
     print(i.head())
     print('')
-    
+
     i['avg_pos_mod_rate'] = i['pos_mod_rate'].mean()
     print(len(i.index))
     print(i.head())
     print('')
-    
+
     i['rolling'] = i.rolling(window=100, center=True)['pos_mod_rate'].mean()
     print(len(i.index))
     print(i.head())
@@ -176,21 +176,21 @@ print(len(dfl_2kb[0].index))
 print(dfl_2kb[0].head())
 
 for i in dfl_2kb:
-    
+
     i.reset_index(drop=True, inplace=True)
     print(i.head())
     print('')
-    
+
     i['avg_read_mod_rate'] = i['MOD'].sum()/(i['MOD'].sum()+i['UNMOD'].sum())*100
     print(len(i.index))
     print(i.head())
     print('')
-    
+
     i['avg_pos_mod_rate'] = i['pos_mod_rate'].mean()
     print(len(i.index))
     print(i.head())
     print('')
-    
+
     i['rolling'] = i.rolling(window=100, center=True)['pos_mod_rate'].mean()
     print(len(i.index))
     print(i.head())
@@ -199,26 +199,26 @@ for i in dfl_2kb:
 dfc_2kb_final = pd.concat(dfl_2kb, axis=0)
 
 for i in dfl_2kb_all:
-    
+
     i.reset_index(drop=True, inplace=True)
     print(i.head())
     print('')
-    
+
     i['avg_read_mod_rate'] = i['MOD'].sum()/(i['MOD'].sum()+i['UNMOD'].sum())*100
     print(len(i.index))
     print(i.head())
     print('')
-    
+
     i['avg_pos_mod_rate'] = i['pos_mod_rate'].mean()
     print(len(i.index))
     print(i.head())
     print('')
-    
+
     i['rolling'] = i.rolling(window=100, center=True)['pos_mod_rate'].mean()
     print(len(i.index))
     print(i.head())
     print('')
-    
+
 dfc_2kb_all_final = pd.concat(dfl_2kb_all, axis=0)
 
 fig = plt.figure(figsize=(7, 5))
@@ -261,21 +261,21 @@ print(len(dfl_pUC19[0].index))
 print(dfl_pUC19[1].head())
 
 for i in dfl_pUC19:
-    
+
     i.reset_index(drop=True, inplace=True)
     print(i.head())
     print('')
-    
+
     i['avg_read_mod_rate'] = i['MOD'].sum()/(i['MOD'].sum()+i['UNMOD'].sum())*100
     print(len(i.index))
     print(i.head())
     print('')
-    
+
     i['avg_pos_mod_rate'] = i['pos_mod_rate'].mean()
     print(len(i.index))
     print(i.head())
     print('')
-    
+
     i['rolling'] = i.rolling(window=100, center=True)['pos_mod_rate'].mean()
     print(len(i.index))
     print(i.head())
@@ -368,3 +368,4 @@ summary_plot('pUC19 reads CpG')
 
 #1 sort out legend titles
 #2 add support for conditon grouping
+#3 add support for subsetting by number
