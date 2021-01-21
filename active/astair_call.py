@@ -38,7 +38,7 @@ print(number)
 print('')
 
 ### get conditions
-# conditions = [i[0:-5] for i in names[:2]] + [i[0:-2] for i in names[2:4]] + [i[0:-5] for i in names[4:]]
+# conditions = [i[4:8] for i in names]
 # print(conditions)
 # print('')
 
@@ -91,6 +91,12 @@ print(len(dfc.index))
 print(dfc.head())
 print(dfc['pos_mod_rate'].isna().sum())
 print('')
+
+### drop samples by number
+# drop = [str(i) for i in list(range(10, 18))]
+# drop = ['0'+i for i in drop]
+# drop = [i[-2:] for i in drop]
+# dfc = dfc[dfc['number'].isin(drop)]
 
 ### process lambda
 nums = dfc['number'].unique()
@@ -314,6 +320,10 @@ plt.savefig('mod_by_pos-pUC19.png', format='png', dpi=500, bbox_inches='tight')
 summary = pd.DataFrame(dfc['sample'].unique(), columns=['sample'])
 summary.reset_index(drop=True, inplace=True)
 
+# sum_condition = dfc_lambda_final[['number', 'condition']].drop_duplicates()
+# sum_condition.reset_index(drop=True, inplace=True)
+# summary['condition'] = sum_condition['condition']
+
 sum_lambda = dfc_lambda_final[['number', 'avg_read_mod_rate', 'avg_pos_mod_rate']].drop_duplicates()
 sum_lambda.reset_index(drop=True, inplace=True)
 summary['lambda reads CpG'] = sum_lambda['avg_read_mod_rate']
@@ -367,5 +377,3 @@ summary_plot('2kb reads CpG')
 summary_plot('pUC19 reads CpG')
 
 #1 sort out legend titles
-#2 add support for conditon grouping
-#3 add support for subsetting by number
