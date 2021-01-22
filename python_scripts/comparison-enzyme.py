@@ -41,5 +41,8 @@ plot = sns.boxplot(x='Enzyme Used', y='λ (%) CpG', whis=10, color='white', data
 sns.swarmplot(x='Enzyme Used', y='λ (%) CpG', hue='Tet QC', data=df)
 for lb in plot.get_xticklabels():
         lb.set_rotation(90)
+# ax.set(ylim=(77, 99))
+ax.yaxis.set_major_locator(ticker.MultipleLocator(2))
+ax.yaxis.set_major_formatter(ticker.ScalarFormatter())
 plt.legend(title='Tet QC', framealpha=1)
 plt.savefig('box.png', format='png', dpi=500, bbox_inches='tight')
