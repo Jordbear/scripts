@@ -21,7 +21,7 @@ sns.set_context(rc={'patch.linewidth': '0.0'})
 sns.set_palette(sns.color_palette('muted'))
 
 ### read file
-df = pd.read_csv('/Users/jordanbrown/Downloads/Tet QC Results Modified.csv', sep=',', usecols=['Enzyme Used', 'Tet QC', 'λ (%) CpG'])
+df = pd.read_csv('/Users/jordanbrown/Downloads/Tet QC Results Modified.csv', sep=',', usecols=['Sequencing date', 'Enzyme Used', 'Tet QC', 'λ (%) CpG'])
 print(df)
 print('')
 
@@ -34,15 +34,34 @@ df.sort_values(['Enzyme Used'])
 print(df)
 print('')
 
-###plot
+### plot
 fig = plt.figure(figsize=(11, 7))
 ax = fig.add_subplot(1, 1, 1)
 plot = sns.boxplot(x='Enzyme Used', y='λ (%) CpG', whis=10, color='white', data=df)
 sns.swarmplot(x='Enzyme Used', y='λ (%) CpG', hue='Tet QC', data=df)
 for lb in plot.get_xticklabels():
-        lb.set_rotation(90)
+    lb.set_rotation(90)
 # ax.set(ylim=(77, 99))
 ax.yaxis.set_major_locator(ticker.MultipleLocator(2))
 ax.yaxis.set_major_formatter(ticker.ScalarFormatter())
 plt.legend(title='Tet QC', framealpha=1)
 plt.savefig('box.png', format='png', dpi=500, bbox_inches='tight')
+
+### sort by date
+df['new_date'] = pd.to_datetime(df['Sequencing date'], dayfirst=True)
+df.sort_values(['new_date'], inplace=True)
+# df = df.iloc[30:]
+print(df)
+print('')
+
+### plot
+fig = plt.figure(figsize=(11, 7))
+ax = fig.add_subplot(1, 1, 1)
+plot = sns.swarmplot(data=df, x="Sequencing date", y="λ (%) CpG", hue='Enzyme Used')
+for lb in plot.get_xticklabels():
+    lb.set_rotation(90)
+# ax.set(ylim=(77, 99))
+ax.yaxis.set_major_locator(ticker.MultipleLocator(2))
+ax.yaxis.set_major_formatter(ticker.ScalarFormatter())
+plot.legend(loc='center right', bbox_to_anchor=(1.24, 0.5), framealpha=1)#.remove()
+plt.savefig('point.png', format='png', dpi=500, bbox_inches='tight')
