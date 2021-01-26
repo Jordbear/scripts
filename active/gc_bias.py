@@ -86,15 +86,18 @@ rounded_ymax = round(ymax, 1-len(str(ymax)))
 ax1.set(ylim=(0, rounded_ymax))
 ax1.yaxis.set_major_locator(ticker.MultipleLocator(rounded_ymax/8))
 ax1.yaxis.set_major_formatter(ticker.ScalarFormatter())
-def commas(x, pos):
-    return '{:,}'.format(int(x))
-def mill(x, pos):
-    if len(str(x)) > 6:
-        mill_label = str(int(x))[:-6]+'M'
+# def commas(x, pos):
+#     return '{:,}'.format(int(x))
+# ax1.get_yaxis().set_major_formatter(plt.FuncFormatter(commas))
+def human_readable(x, pos):
+    if len(str(int(x))) > 6:
+        human_label = str(int(x))[:-6]+'m'
+    elif len(str(int(x))) > 3:
+        human_label = str(int(x))[:-3]+'k'
     else:
-        mill_label = int(x)
-    return mill_label
-ax1.get_yaxis().set_major_formatter(plt.FuncFormatter(mill))
+        human_label = int(x)
+    return human_label
+ax1.get_yaxis().set_major_formatter(plt.FuncFormatter(human_readable))
 ax1.grid(b=True, axis='both')
 ax1.yaxis.tick_right()
 ax1.yaxis.set_label_position('right')
