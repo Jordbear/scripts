@@ -5,6 +5,8 @@ picard_link=https://github.com/broadinstitute/picard/releases/download/2.23.3/pi
 bedtools_link=https://github.com/arq5x/bedtools2/releases/download/v2.29.2/bedtools.static.binary
 trimgalore_link=https://github.com/FelixKrueger/TrimGalore/archive/0.6.5.tar.gz
 bamutil_link=https://github.com/statgen/bamUtil/archive/v1.0.14.tar.gz
+bscli_link=https://api.bintray.com/content/basespace/BaseSpaceCLI-EarlyAccess-BIN/latest/\$latest/amd64-linux/bs?bt_package=latest
+bwameth_link=https://github.com/brentp/bwa-meth/archive/master.zip
 
 
 sudo apt-get -y update
@@ -16,6 +18,8 @@ sudo apt-get -y install python3-pip
 
 mkdir ~/seq_tools
 cd ~/seq_tools
+dir=`pwd`
+echo 'PATH=$PATH:'$dir >> ~/.profile
 
 wget $fastqc_link
 fastqc_compressed=${fastqc_link##*/}
@@ -70,6 +74,15 @@ make
 sudo make install
 cd ..
 
+wget $bscli_link -O bs
+chmod u+x bs
+
+pip3 install toolshed
+wget $bwameth_link
+unzip master.zip
+rm master.zip
+cd bwa-meth-master/
+sudo python3 setup.py install
 
 
 sudo reboot
