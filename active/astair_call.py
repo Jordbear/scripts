@@ -299,7 +299,7 @@ for ax in plot.axes.flat:
     # sns.lineplot(x='START', y='rolling', estimator=None, color='black', zorder=1, linewidth=3, legend=False, data=dfl_pUC19[count], ax=ax)
     sns.scatterplot(x='START', y='rolling', color='black', zorder=1, size=3, linewidth=0, legend=False, data=dfl_pUC19[count], ax=ax)
     if dfl_pUC19[count]['pos_mod_rate'].isnull().sum() > 0:
-        ax.text(200, 0, 'Positions uncalled: '+str(dfl_pUC19[count]['pos_mod_rate'].isnull().sum()), size=25, weight='bold')
+        ax.text(0, 0, 'Positions uncalled: '+str(dfl_pUC19[count]['pos_mod_rate'].isnull().sum()), size=25, weight='bold')
     ax.set_xlabel('Position', size=20)
     ax.set_ylabel('Modification rate (%)' , size=20)
     for i, spine in ax.spines.items():
@@ -364,7 +364,7 @@ def summary_plot(metric):
     ax.set_ylim(top=ax.get_ylim()[1]*(1+(0.8/len(names))))
     plot.set_xlabel('')
     plot.set_ylabel('Modification rate (%)')
-    plot.legend(loc='center right', bbox_to_anchor=(1.24, 0.5), framealpha=1)#.remove()
+    plot.legend(loc='center left', bbox_to_anchor=(1, 0.5), framealpha=1)#.remove()
     # for p in plot.patches:
     #     if np.isnan(p.get_height())==False and float('{:.5f}'.format(p.get_height())) in [95.57517, 95.78446, 95.56830, 95.72392, 95.45698, 95.61916, 95.59885, 95.69544]:
     #         print(p.get_x() + p.get_width() / 2)
@@ -377,3 +377,4 @@ summary_plot('2kb reads CpG')
 summary_plot('pUC19 reads CpG')
 
 #1 sort out legend titles
+#2 make text positions proportion of axis max instead of absolute value
