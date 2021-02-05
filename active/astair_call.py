@@ -99,11 +99,9 @@ print('')
 # dfc = dfc[dfc['number'].isin(drop)]
 
 ### process lambda
-nums = dfc['number'].unique()
-print(nums)
 dfc_lambda = dfc[dfc['#CHROM'] == 'J02459.1']
 dfc_lambda = dfc_lambda[dfc_lambda['CONTEXT'] == 'CpG']
-dfl_lambda = [dfc_lambda[dfc_lambda['number'] == i] for i in nums]
+dfl_lambda = [dfc_lambda[dfc_lambda['sample'] == i] for i in names]
 print(len(dfl_lambda[0].index))
 print(dfl_lambda[0].head())
 
@@ -171,13 +169,11 @@ plt.subplots_adjust(wspace=0.1, hspace=0.12)
 plt.savefig('mod_by_pos-lambda.png', format='png', dpi=500, bbox_inches='tight')
 
 ### process 2kb
-nums = dfc['number'].unique()
-print(nums)
 dfc_2kb = dfc[dfc['#CHROM'] == 'unmodified_2kb']
 dfc_2kb_all = dfc_2kb
-dfl_2kb_all = [dfc_2kb_all[dfc_2kb_all['number'] == i] for i in nums]
+dfl_2kb_all = [dfc_2kb_all[dfc_2kb_all['sample'] == i] for i in names]
 dfc_2kb = dfc_2kb[dfc_2kb['CONTEXT'] == 'CpG']
-dfl_2kb = [dfc_2kb[dfc_2kb['number'] == i] for i in nums]
+dfl_2kb = [dfc_2kb[dfc_2kb['sample'] == i] for i in names]
 print(len(dfl_2kb[0].index))
 print(dfl_2kb[0].head())
 
@@ -256,13 +252,11 @@ plt.savefig('mod_by_pos-2kb.png', format='png', dpi=500, bbox_inches='tight')
 
 
 ### process pUC19
-nums = dfc['number'].unique()
-print(nums)
 dfc_pUC19 = dfc[dfc['#CHROM'] == 'pUC19']
 dfc_pUC19 = dfc_pUC19[dfc_pUC19['CONTEXT'] == 'CpG']
 print(len(dfc_pUC19.index))
 print(dfc_pUC19.head())
-dfl_pUC19 = [dfc_pUC19[dfc_pUC19['number'] == i] for i in nums]
+dfl_pUC19 = [dfc_pUC19[dfc_pUC19['sample'] == i] for i in names]
 print(len(dfl_pUC19[0].index))
 print(dfl_pUC19[1].head())
 
