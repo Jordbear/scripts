@@ -28,7 +28,7 @@ print('')
 number = [i.rsplit('_S', 1)[1] for i in files]
 number = [i.replace('_mCtoT_all.mods', '') for i in number]
 number = [int(i) for i in number]
-number = [3,12,5,7,6,10,8,14,9,16,17,19,18,21,22,24,23,26,27,28,1,11,2,15,20,25,4,13]
+# number = [3,12,5,7,6,10,8,14,9,16,17,19,18,21,22,24,23,26,27,28,1,11,2,15,20,25,4,13]
 print(number)
 print('')
 
