@@ -42,9 +42,9 @@ print(names)
 print('')
 
 ### get conditions
-conditions = ['Alfa50-133','Alfa50-133','Alfa50-133','Alfa50-133','Alfa50-133','Alfa50-133','Alfa50-133','Alfa5-133','Alfa5-133','Alfa5-133','Alfa5-133','Alfa10-028','Alfa10-028','Alfa10-930','Alfa10-930','Alfa10-931','Acros-321','Acros-321','Acros-321','Acros-321','Acros-145','Sigma-042','Sigma-042','Sigma-042','Sigma-042','MO-133','TCI-B3M','ABCR-255']
-print(conditions)
-print('')
+# conditions = []
+# print(conditions)
+# print('')
 
 ### read data into list of dataframes
 dfl = [pd.read_csv(f, sep='\t', usecols=['#CHROM', 'START','MOD_LEVEL', 'MOD', 'UNMOD', 'CONTEXT', 'TOTAL_DEPTH']) for f in files]
@@ -60,10 +60,10 @@ for i in dfl:
     print(i.head())
     print('')
 
-    i['condition'] = conditions[count]
-    print(len(i.index))
-    print(i.head())
-    print('')
+    # i['condition'] = conditions[count]
+    # print(len(i.index))
+    # print(i.head())
+    # print('')
 
     count+=1
 
@@ -320,9 +320,9 @@ plt.savefig('mod_by_pos-pUC19.png', format='png', dpi=500, bbox_inches='tight')
 summary = pd.DataFrame(dfc['sample'].unique(), columns=['sample'])
 summary.reset_index(drop=True, inplace=True)
 
-sum_condition = dfc_lambda_final[['sample', 'condition']].drop_duplicates()
-sum_condition.reset_index(drop=True, inplace=True)
-summary['condition'] = sum_condition['condition']
+# sum_condition = dfc_lambda_final[['sample', 'condition']].drop_duplicates()
+# sum_condition.reset_index(drop=True, inplace=True)
+# summary['condition'] = sum_condition['condition']
 
 sum_lambda = dfc_lambda_final[['sample', 'avg_read_mod_rate', 'avg_pos_mod_rate', '194mer_conversion', '194mer_calls']].drop_duplicates()
 sum_lambda.reset_index(drop=True, inplace=True)
@@ -354,7 +354,7 @@ summary.to_csv('conversion_summary.tsv', sep='\t', index=False)
 def summary_plot(metric):
     fig = plt.figure(figsize=(11, 7))
     ax = fig.add_subplot(1, 1, 1)
-    plot = sns.barplot(x='sample', y=metric, units='sample', hue='condition', dodge=False, data=summary)
+    plot = sns.barplot(x='sample', y=metric, units='sample', hue='sample', dodge=False, data=summary)
     for lb in plot.get_xticklabels():
         lb.set_rotation(90)
     for p in plot.patches:
