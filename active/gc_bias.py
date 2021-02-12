@@ -16,28 +16,33 @@ import glob
 import seaborn as sns
 sns.set_style('white', {'axes.grid': True, 'xtick.bottom': True, 'ytick.left': False})
 sns.set_context(rc={'patch.linewidth': '0.0'})
-sns.set_palette(sns.color_palette('muted'))
+sns.set_palette(sns.color_palette(['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075']))
 
 ### get list of files
-files = sorted(glob.glob('*_gc.tsv'))
+files = sorted(glob.glob('*_gc_bias.tsv'))
 print(files)
 print('')
+
+### get sample numbers from file names
+number = [i.rsplit('_S', 1)[1] for i in files]
+number = [i.replace('_gc_bias.tsv', '') for i in number]
+number = [int(i) for i in number]
+# number = [1, 2, 3, 4, 5, 6, 7, 8]
+print(number)
+print('')
+
+### sort file names by numbers
+files = [x for _,x in sorted(zip(number, files))]
+print(files)
+files = files[6:]
 
 ### get sample names from file names
 names = [i.rsplit('_S', 1)[0] for i in files]
 print(names)
 print('')
 
-### get sample numbers from file names
-number = [i.split('_S')[-1] for i in files]
-number = [i.replace('_gc.tsv', '') for i in number]
-number = ['0'+i for i in number]
-number = [i[-2:] for i in number]
-print(number)
-print('')
-
 ### get conditions
-conditions = [i[4:9] for i in names]
+conditions = [i[4:-2] for i in names]
 print(conditions)
 print('')
 
@@ -109,7 +114,7 @@ ax2.axes.axhline(1, color='grey', ls='--')
 sns.lineplot(x='GC', y='NORMALIZED_COVERAGE', hue='condition', units='sample', estimator=None, data=dfc, ax=ax2)
 ax2.set(xlim=(0, 100))
 ax2.set(ylim=(0, 2))
-ax2.legend(loc='center right', bbox_to_anchor=(1.55, 0.5), framealpha=1)#.remove()
+ax2.legend(loc='center left', bbox_to_anchor=(1.15, 0.5), framealpha=1)#.remove()
 ax2.grid(False)
 ax2.yaxis.tick_left()
 ax2.yaxis.set_label_position('left')

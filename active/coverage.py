@@ -9,30 +9,35 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 sns.set_style('white', {'axes.grid': True, 'xtick.bottom': True, 'ytick.left': True})
 sns.set_context(rc={'patch.linewidth': '0.0'})
-sns.set_palette(sns.color_palette('deep'))
+sns.set_palette(sns.color_palette(['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075']))
 
 
 
+### get list of files
 files = sorted(glob.glob('*_coverage.tsv'))
-
-
-names = [i.split('_S')[0] for i in files]
-print(names)
+print(files)
 print('')
 
+### get sample numbers from file names
+number = [i.rsplit('_S', 1)[1] for i in files]
+number = [i.replace('_coverage.tsv', '') for i in number]
+number = [int(i) for i in number]
+# number = [1, 2, 3, 4, 5, 6, 7, 8]
+print(number)
+print('')
+
+### sort file names by numbers
+files = [x for _,x in sorted(zip(number, files))]
+print(files)
+
+### get sample names from file names
 names = [i.rsplit('_S', 1)[0] for i in files]
 print(names)
 print('')
 
-conditions = [i[7:-2] for i in names]
+### get conditions
+conditions = [i[4:-2] for i in names]
 print(conditions)
-print('')
-
-number = [i.split('_S')[1] for i in files]
-number = [i.replace('_001_mCtoT_all.mods', '') for i in number]
-number = ['0'+i for i in number]
-number = [i[-2:] for i in number]
-print(number)
 print('')
 
 
@@ -103,7 +108,7 @@ dfc.to_csv('coverage_summary.tsv', sep='\t')
 
 fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(1, 1, 1)
-plot = sns.relplot(x='X3', y='X4', kind='line', hue='condition', col='sample', col_wrap=6, units='sample', aspect=1.6, height=5, estimator=None, data=dfc)
+plot = sns.relplot(x='X3', y='X4', kind='line', hue='condition', col='sample', col_wrap=6, units='sample', aspect=1.6, height=5, estimator=None, facet_kws={'sharey': False, 'sharex': True}, data=dfc)
 for ax in plot.axes.flat:
     ax.set_xlabel('Position', size=20)
     ax.set_ylabel('Coverage Depth' , size=20)
