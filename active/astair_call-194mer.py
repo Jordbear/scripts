@@ -27,6 +27,7 @@ print('')
 ### get sample numbers from file names
 number = [i.rsplit('_S', 1)[1] for i in files]
 number = [i.replace('_mCtoT_all.mods', '') for i in number]
+number = [i.replace('_CtoT_all.mods', '') for i in number]
 number = [int(i) for i in number]
 # number = [3,12,5,7,6,10,8,14,9,16,17,19,18,21,22,24,23,26,27,28,1,11,2,15,20,25,4,13]
 print(number)
@@ -42,9 +43,12 @@ print(names)
 print('')
 
 ### get conditions
-# conditions = []
-# print(conditions)
-# print('')
+conditions = [i[4:-2] for i in names]
+print(conditions)
+print('')
+
+### set grouping
+grouping='condition'
 
 ### read data into list of dataframes
 dfl = [pd.read_csv(f, sep='\t', usecols=['#CHROM', 'START','MOD_LEVEL', 'MOD', 'UNMOD', 'CONTEXT', 'TOTAL_DEPTH']) for f in files]
@@ -60,10 +64,10 @@ for i in dfl:
     print(i.head())
     print('')
 
-    # i['condition'] = conditions[count]
-    # print(len(i.index))
-    # print(i.head())
-    # print('')
+    i['condition'] = conditions[count]
+    print(len(i.index))
+    print(i.head())
+    print('')
 
     count+=1
 
@@ -320,9 +324,9 @@ plt.savefig('mod_by_pos-pUC19.png', format='png', dpi=500, bbox_inches='tight')
 summary = pd.DataFrame(dfc['sample'].unique(), columns=['sample'])
 summary.reset_index(drop=True, inplace=True)
 
-# sum_condition = dfc_lambda_final[['sample', 'condition']].drop_duplicates()
-# sum_condition.reset_index(drop=True, inplace=True)
-# summary['condition'] = sum_condition['condition']
+sum_condition = dfc_lambda_final[['sample', 'condition']].drop_duplicates()
+sum_condition.reset_index(drop=True, inplace=True)
+summary['condition'] = sum_condition['condition']
 
 sum_lambda = dfc_lambda_final[['sample', 'avg_read_mod_rate', 'avg_pos_mod_rate', '194mer_conversion', '194mer_calls']].drop_duplicates()
 sum_lambda.reset_index(drop=True, inplace=True)
@@ -351,10 +355,10 @@ print(summary)
 summary.to_csv('conversion_summary.tsv', sep='\t', index=False)
 
 ### generate summary plots
-def summary_plot(metric):
+def summary_plot(metric, grouping):
     fig = plt.figure(figsize=(11, 7))
     ax = fig.add_subplot(1, 1, 1)
-    plot = sns.barplot(x='sample', y=metric, units='sample', hue='sample', dodge=False, data=summary)
+    plot = sns.barplot(x='sample', y=metric, units='sample', hue=grouping, dodge=False, data=summary)
     for lb in plot.get_xticklabels():
         lb.set_rotation(90)
     for p in plot.patches:
@@ -375,9 +379,9 @@ def summary_plot(metric):
     #         plot.text(p.get_x() + p.get_width() / 2, p.get_height() - 5, '*', ha='center', fontsize=20, weight=5)
     plt.savefig('mean_'+metric+'.png', format='png', dpi=500, bbox_inches='tight')
 
-summary_plot('lambda_reads_CpG')
-summary_plot('2kb_reads_CpG')
-summary_plot('pUC19_reads_CpG')
+summary_plot('lambda_reads_CpG', grouping)
+summary_plot('2kb_reads_CpG', grouping)
+summary_plot('pUC19_reads_CpG', grouping)
 
 ### generate overall vs 194mer plot
 fig = plt.figure(figsize=(7, 7))
