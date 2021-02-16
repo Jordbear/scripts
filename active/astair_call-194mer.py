@@ -356,7 +356,7 @@ summary.to_csv('conversion_summary.tsv', sep='\t', index=False)
 
 ### generate summary plots
 def summary_plot(metric, grouping):
-    fig = plt.figure(figsize=(11, 7))
+    fig = plt.figure(figsize=(5, 7))
     ax = fig.add_subplot(1, 1, 1)
     plot = sns.barplot(x='sample', y=metric, units='sample', hue=grouping, dodge=False, data=summary)
     for lb in plot.get_xticklabels():
@@ -367,7 +367,7 @@ def summary_plot(metric, grouping):
                 value_format = '{:#.3g}'
             else:
                 value_format = '{:.2f}'
-            plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, value_format.format(p.get_height()), fontsize=250/len(names), ha='center')
+            plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, value_format.format(p.get_height()), fontsize=100/len(names), ha='center')
     ax.set_ylim(top=ax.get_ylim()[1]*(1+(0.8/len(names))))
     plot.set_xlabel('')
     plot.set_ylabel('Modification rate (%)')
