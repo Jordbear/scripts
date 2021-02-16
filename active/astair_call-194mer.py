@@ -36,6 +36,7 @@ print('')
 ### sort file names by numbers
 files = [x for _,x in sorted(zip(number, files))]
 print(files)
+print('')
 
 ### get sample names from file names
 names = [i.rsplit('_S', 1)[0] for i in files]
@@ -134,12 +135,12 @@ for i in dfl_lambda:
     print(len(i.index))
     print(i.head())
     print('')
-    
+
     i['194mer_conversion'] = ( i.loc[i['START'] == 17656, 'MOD'].iloc[0] + i.loc[i['START'] == 17657, 'MOD'].iloc[0] ) / ( i.loc[i['START'] == 17656, 'MOD'].iloc[0] + i.loc[i['START'] == 17657, 'MOD'].iloc[0] + i.loc[i['START'] == 17656, 'UNMOD'].iloc[0] + i.loc[i['START'] == 17657, 'UNMOD'].iloc[0] ) * 100
     print(len(i.index))
     print(i.head())
     print('')
-    
+
     i['194mer_calls'] = i.loc[i['START'] == 17656, 'MOD'].iloc[0] + i.loc[i['START'] == 17657, 'MOD'].iloc[0] + i.loc[i['START'] == 17656, 'UNMOD'].iloc[0] + i.loc[i['START'] == 17657, 'UNMOD'].iloc[0]
     print(len(i.index))
     print(i.head())
