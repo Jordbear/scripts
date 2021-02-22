@@ -370,6 +370,7 @@ def summary_plot(metric):
     fig = plt.figure(figsize=(4, 7))
     ax = fig.add_subplot(1, 1, 1)
     plot = sns.barplot(x='sample', y=metric, units='sample', hue='condition', dodge=False, data=summary)
+    # ax.set_ylim(top=110)
     for lb in plot.get_xticklabels():
         lb.set_rotation(90)
     for p in plot.patches:
@@ -379,7 +380,6 @@ def summary_plot(metric):
             else:
                 value_format = '{:.2f}'
             plot.text(p.get_x()+p.get_width()/2, p.get_height()+ax.get_ylim()[1]/200, value_format.format(p.get_height()), fontsize=100/len(names), ha='center')
-    ax.set_ylim(top=110)
     plot.set_xlabel('')
     plot.set_ylabel('Modification rate (%)')
     plot.legend(loc='center left', bbox_to_anchor=(1, 0.5), framealpha=1).remove()
