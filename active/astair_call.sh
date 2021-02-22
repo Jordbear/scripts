@@ -1,5 +1,5 @@
 #!/bin/bash
-ref=/pipeline/references/lambda/J02459.1.fa
+ref=/pipeline/references/base_spikes/base_spikes.fa
 nthreads=`nproc --all`
 mkdir astair
 for i in *.bam; do
