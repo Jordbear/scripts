@@ -29,7 +29,7 @@ number = [i.rsplit('_S', 1)[1] for i in files]
 number = [i.replace('_mCtoT_all.mods', '') for i in number]
 number = [i.replace('_CtoT_all.mods', '') for i in number]
 number = [int(i) for i in number]
-number = [1, 2, 3, 4, 5, 6, 7, 8]
+# number = [1, 2, 3, 4, 5, 6, 7, 8]
 print(number)
 print('')
 
