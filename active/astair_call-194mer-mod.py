@@ -6,7 +6,6 @@ Created on Thu Jan 14 11:58:43 2021
 @author: jordanbrown
 """
 
-import re
 import numpy as np
 import pandas as pd
 pd.set_option('display.max_columns', None)
@@ -35,9 +34,12 @@ print('')
 
 ### sort file names by numbers
 files = [x for _,x in sorted(zip(number, files))]
-# files = files[:4]
+# files = files[10:22]
 print(files)
 print('')
+
+### set tag if desired
+tag = ''
 
 ### get sample names from file names
 names = [i.rsplit('_S', 1)[0] for i in files]
@@ -185,7 +187,7 @@ plot.set_titles("{col_name}", pad=2, size=20)
 # ax.get_xaxis().set_major_formatter(plt.FuncFormatter(commas))
 plt.subplots_adjust(wspace=0.1, hspace=0.12)
 # plt.setp(plot._legend.get_texts(), fontsize=30)
-plt.savefig('mod_by_pos-lambda-cut.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('mod_by_pos-lambda'+tag+'.png', format='png', dpi=500, bbox_inches='tight')
 
 ### process 2kb
 dfc_2kb = dfc[dfc['#CHROM'] == 'unmodified_2kb']
@@ -267,7 +269,7 @@ plot.set_titles("{col_name}", pad=2, size=20)
 # ax.get_xaxis().set_major_formatter(plt.FuncFormatter(commas))
 plt.subplots_adjust(wspace=0.1, hspace=0.12)
 # plt.setp(plot._legend.get_texts(), fontsize=30)
-plt.savefig('mod_by_pos-2kb-cut.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('mod_by_pos-2kb'+tag+'.png', format='png', dpi=500, bbox_inches='tight')
 
 
 ### process pUC19
@@ -327,7 +329,7 @@ plot.set_titles("{col_name}", pad=2, size=20)
 # ax.get_xaxis().set_major_formatter(plt.FuncFormatter(commas))
 plt.subplots_adjust(wspace=0.1, hspace=0.12)
 # plt.setp(plot._legend.get_texts(), fontsize=30)
-plt.savefig('mod_by_pos-pUC19-cut.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('mod_by_pos-pUC19'+tag+'.png', format='png', dpi=500, bbox_inches='tight')
 
 ### generate summary table
 summary = pd.DataFrame(dfc['sample'].unique(), columns=['sample'])
@@ -367,7 +369,7 @@ summary.to_csv('conversion_summary.tsv', sep='\t', index=False)
 
 ### generate summary plots
 def summary_plot(metric):
-    fig = plt.figure(figsize=(4, 7))
+    fig = plt.figure(figsize=(7, 7))
     ax = fig.add_subplot(1, 1, 1)
     plot = sns.barplot(x='sample', y=metric, units='sample', hue='condition', dodge=False, data=summary)
     # ax.set_ylim(top=110)
@@ -388,14 +390,14 @@ def summary_plot(metric):
     #         print(p.get_x() + p.get_width() / 2)
     #         print(p.get_height())
     #         plot.text(p.get_x() + p.get_width() / 2, p.get_height() - 5, '*', ha='center', fontsize=20, weight=5)
-    plt.savefig('mean_'+metric+'-cut.png', format='png', dpi=500, bbox_inches='tight')
+    plt.savefig('mean_'+metric+''+tag+'.png', format='png', dpi=500, bbox_inches='tight')
 
 summary_plot('lambda_reads_CpG')
 summary_plot('2kb_reads_CpG')
 summary_plot('pUC19_reads_CpG')
 
 def mod_plot(metric):
-    fig = plt.figure(figsize=(4, 7))
+    fig = plt.figure(figsize=(7, 7))
     ax = fig.add_subplot(1, 1, 1)
     plot = sns.barplot(x='sample', y=metric, units='sample', hue='condition', dodge=False, data=summary)
     ax.set_ylim(top=490000)
@@ -426,7 +428,7 @@ def mod_plot(metric):
     #         print(p.get_x() + p.get_width() / 2)
     #         print(p.get_height())
     #         plot.text(p.get_x() + p.get_width() / 2, p.get_height() - 5, '*', ha='center', fontsize=20, weight=5)
-    plt.savefig('mean_'+metric+'-cut.png', format='png', dpi=500, bbox_inches='tight')
+    plt.savefig('mean_'+metric+tag+'.png', format='png', dpi=500, bbox_inches='tight')
 
 mod_plot('lambda_mod_CpG')
 mod_plot('lambda_unmod_CpG')
@@ -443,7 +445,7 @@ ax.set(ylim=(-5, 105))
 # ax.yaxis.set_major_formatter(ticker.ScalarFormatter())
 ax.plot([-5, 105], [-5, 105], linestyle='--', linewidth=1, zorder=0.9, color='grey')
 plot.legend(loc='center left', bbox_to_anchor=(1, 0.5), framealpha=1)#.remove()
-plt.savefig('conversion_comparison-cut.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('conversion_comparison'+tag+'.png', format='png', dpi=500, bbox_inches='tight')
 
 #1 sort out legend titles
 #2 make text positions proportion of axis max instead of absolute value
