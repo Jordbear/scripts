@@ -4,5 +4,5 @@ rname=J02459.1
 mkdir "coverage-${rname}"
 for bam in *.bam; do
   echo $bam
-  bedtools coverage -a $annotation -b $bam -d > coverage-${rname}/${bam%%.bam}'_coverage.tsv'
+  bedtools coverage -a $annotation -b $bam -d -split > coverage-${rname}/${bam%%.bam}'_coverage.tsv'
 done
