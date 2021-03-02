@@ -365,7 +365,7 @@ summary['194mer_conversion'] = sum_lambda['194mer_conversion']
 summary['194mer_calls'] = sum_lambda['194mer_calls']
 
 print(summary)
-summary.to_csv('conversion_summary.tsv', sep='\t', index=False)
+summary.to_csv('conversion_summary'+tag+'.tsv', sep='\t', index=False)
 
 ### generate summary plots
 def summary_plot(metric):
