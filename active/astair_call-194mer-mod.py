@@ -354,12 +354,12 @@ summary['pUC19_positions_CpG'] = sum_pUC19['avg_pos_mod_rate']
 sum_2kb = dfc_2kb_final[['sample', 'avg_read_mod_rate', 'avg_pos_mod_rate']].drop_duplicates()
 sum_2kb.reset_index(drop=True, inplace=True)
 summary['2kb_reads_CpG'] = sum_2kb['avg_read_mod_rate']
-summary['2kb positions CpG'] = sum_2kb['avg_pos_mod_rate']
+summary['2kb_positions_CpG'] = sum_2kb['avg_pos_mod_rate']
 
 sum_2kb_all = dfc_2kb_all_final[['sample', 'avg_read_mod_rate', 'avg_pos_mod_rate']].drop_duplicates()
 sum_2kb_all.reset_index(drop=True, inplace=True)
 summary['2kb_reads_CpX'] = sum_2kb_all['avg_read_mod_rate']
-summary['2kb positions_CpX'] = sum_2kb_all['avg_pos_mod_rate']
+summary['2kb_positions_CpX'] = sum_2kb_all['avg_pos_mod_rate']
 
 summary['194mer_conversion'] = sum_lambda['194mer_conversion']
 summary['194mer_calls'] = sum_lambda['194mer_calls']
@@ -392,9 +392,9 @@ def summary_plot(metric):
     #         plot.text(p.get_x() + p.get_width() / 2, p.get_height() - 5, '*', ha='center', fontsize=20, weight=5)
     plt.savefig('mean_'+metric+''+tag+'.png', format='png', dpi=500, bbox_inches='tight')
 
-summary_plot('lambda_reads_CpG')
-summary_plot('2kb_reads_CpG')
-summary_plot('pUC19_reads_CpG')
+summary_plot('lambda_positions_CpG')
+summary_plot('2kb_positions_CpG')
+summary_plot('pUC19_positions_CpG')
 
 def mod_plot(metric):
     fig = plt.figure(figsize=(7, 7))
