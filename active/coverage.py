@@ -28,7 +28,11 @@ print('')
 
 ### sort file names by numbers
 files = [x for _,x in sorted(zip(number, files))]
+# files = files[:10]
 print(files)
+
+### set tag if desired
+tag = ''
 
 ### get sample names from file names
 names = [i.rsplit('_S', 1)[0] for i in files]
@@ -36,7 +40,7 @@ print(names)
 print('')
 
 ### get conditions
-conditions = [i[4:-2] for i in names]
+conditions = [i[4:] for i in names]
 print(conditions)
 print('')
 
@@ -70,40 +74,10 @@ print('')
 
 print(dfl[0]['X3'].max())
 
-# dfc = dfc[dfc.X0=='all']
-# print(dfc)
-# print('')
-
-# print(dfc['X2'].max()/200)
-# print(dfc['X1'].mean())
-# dfc = dfc[(dfc.X2>(dfc['X2'].max()/200)) | (dfc.X1<(dfc['X1'].mean()))]
-# print(len(dfc.index))
-# print(dfc.head())
-# print('')
 
 
-dfc.to_csv('coverage_summary.tsv', sep='\t')
+dfc.to_csv('coverage_summary'+tag+'.tsv', sep='\t')
 
-# dfc = dfc.sort_values(['condition', 'library', 'sample'])
-
-
-
-# count=0
-# for df in dfl:
-#     fig = plt.figure(figsize=(7, 5))
-#     ax = fig.add_subplot(1, 1, 1)
-#     plot = sns.lineplot(x='X3', y='X4', hue='sample', units='sample', estimator=None, data=df)
-#     # sns.despine()
-#     ax.set_xlabel('Position')
-#     ax.set_ylabel('Coverage Depth')
-#     plot.set(xlim=(0, dfl[0]['X3'].max()))
-#     plot.set(ylim=(0, None))
-#     plot.legend(loc='center right', bbox_to_anchor=(1.2, 0.5), framealpha=1).remove()
-#     def commas(x, pos):
-#         return '{:,}'.format(int(x))
-#     ax.get_xaxis().set_major_formatter(plt.FuncFormatter(commas))
-#     plt.savefig('plot-'+names[count]+'.png', format='png', dpi=500, bbox_inches='tight')
-#     count+=1
 
 
 fig = plt.figure(figsize=(7, 5))
@@ -123,7 +97,7 @@ def commas(x, pos):
 ax.get_xaxis().set_major_formatter(plt.FuncFormatter(commas))
 plt.subplots_adjust(wspace=0.1, hspace=0.12)
 # plt.setp(plot._legend.get_texts(), fontsize=30)
-plt.savefig('coverage.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('coverage'+tag+'.png', format='png', dpi=500, bbox_inches='tight')
 
 # barplot('X4', variable)
 # barplot('PF_MISMATCH_RATE', variable)

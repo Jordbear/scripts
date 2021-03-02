@@ -33,8 +33,12 @@ print('')
 
 ### sort file names by numbers
 files = [x for _,x in sorted(zip(number, files))]
+# files = files[6:10]
 print(files)
-files = files[6:]
+print('')
+
+### set tag if desired
+tag = ''
 
 ### get sample names from file names
 names = [i.rsplit('_S', 1)[0] for i in files]
@@ -42,7 +46,7 @@ print(names)
 print('')
 
 ### get conditions
-conditions = [i[4:-2] for i in names]
+conditions = [i[4:] for i in names]
 print(conditions)
 print('')
 
@@ -71,7 +75,7 @@ print(total_windows)
 print('')
 
 ### sort values by numbers and create subset dataframes
-dfc = dfc.sort_values(['number'])
+# dfc = dfc.sort_values(['number'])
 # dfc1 = dfc[dfc['number'].isin(['01', '02', '03', '04', '05', '11'])]
 # dfc2 = dfc[dfc['number'].isin(['05', '06', '07', '08', '09', '10'])]
 # dfc3 = dfc[dfc['number'].isin(['11', '12', '13', '14', '15', '16', '17', '18'])]
@@ -121,4 +125,4 @@ ax2.yaxis.set_label_position('left')
 ax2.set(xlabel='GC percentage of windows', ylabel='Normalised coverage')
 
 ### save figure
-plt.savefig('gc_bias.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('gc_bias'+tag+'.png', format='png', dpi=500, bbox_inches='tight')
