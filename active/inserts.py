@@ -77,7 +77,7 @@ plot = sns.lineplot(x='Insert Size', y='Reads', hue='condition', units='sample',
 sns.despine()
 plot.set(xlim=(0, 800))
 plot.set(ylim=(0, None))
-plot.legend(loc='center right', bbox_to_anchor=(1.2, 0.5), framealpha=1)
+plot.legend(loc='center left', bbox_to_anchor=(1, 0.5), framealpha=1)
 # def commas(x, pos):
 #     return '{:,}'.format(int(x))
 # ax.get_yaxis().set_major_formatter(plt.FuncFormatter(commas))
