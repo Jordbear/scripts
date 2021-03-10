@@ -15,7 +15,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 sns.set_style('white', {'axes.grid': True, 'xtick.bottom': True, 'ytick.left': True})
 sns.set_context(rc={'patch.linewidth': '0.0'})
-sns.set_palette(sns.color_palette('muted'))
+sns.set_palette(sns.color_palette(['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075']))
 
 ### get list of files
 files = sorted(glob.glob('*_inserts.tsv'))
@@ -36,7 +36,7 @@ print(number)
 print('')
 
 ### get conditions
-conditions = [i[4:8] for i in names]
+conditions = [i[:-2] for i in names]
 print(conditions)
 print('')
 
@@ -75,7 +75,7 @@ fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(1, 1, 1)
 plot = sns.lineplot(x='Insert Size', y='Reads', hue='condition', units='sample', estimator=None, data=dfc)
 sns.despine()
-plot.set(xlim=(0, None))
+plot.set(xlim=(0, 800))
 plot.set(ylim=(0, None))
 plot.legend(loc='center right', bbox_to_anchor=(1.2, 0.5), framealpha=1)
 # def commas(x, pos):
