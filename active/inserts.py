@@ -22,17 +22,26 @@ files = sorted(glob.glob('*_inserts.tsv'))
 print(files)
 print('')
 
+### get sample numbers from file names
+number = [i.rsplit('_S', 1)[1] for i in files]
+number = [i.replace('_inserts.tsv', '') for i in number]
+number = [int(i) for i in number]
+# number = [1, 2, 3, 4, 5, 6, 7, 8]
+print(number)
+print('')
+
+### sort file names by numbers
+files = [x for _,x in sorted(zip(number, files))]
+# files = files[6:10]
+print(files)
+print('')
+
+### set tag if desired
+tag = ''
+
 ### get sample names from file names
 names = [i.rsplit('_S', 1)[0] for i in files]
 print(names)
-print('')
-
-### get sample numbers from file names
-number = [i.split('_S')[-1] for i in files]
-number = [i.replace('_inserts.tsv', '') for i in number]
-number = ['0'+i for i in number]
-number = [i[-2:] for i in number]
-print(number)
 print('')
 
 ### get conditions
@@ -90,4 +99,4 @@ def human_readable(x, pos):
         human_label = int(x)
     return human_label
 ax.get_yaxis().set_major_formatter(plt.FuncFormatter(human_readable))
-plt.savefig('inserts.png', format='png', dpi=500, bbox_inches='tight')
+plt.savefig('inserts'+tag+'.png', format='png', dpi=500, bbox_inches='tight')
