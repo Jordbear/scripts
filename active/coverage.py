@@ -20,6 +20,7 @@ print('')
 
 ### get sample numbers from file names
 number = [i.rsplit('_S', 1)[1] for i in files]
+number = [i.replace('_001', '') for i in number]
 number = [i.replace('_coverage.tsv', '') for i in number]
 number = [int(i) for i in number]
 # number = [1, 2, 3, 4, 5, 6, 7, 8]
@@ -40,7 +41,7 @@ print(names)
 print('')
 
 ### get conditions
-conditions = [i[4:] for i in names]
+conditions = [i[:-2] for i in names]
 print(conditions)
 print('')
 
@@ -78,16 +79,19 @@ print(dfl[0]['X3'].max())
 
 dfc.to_csv('coverage_summary'+tag+'.tsv', sep='\t')
 
-
+print
 
 fig = plt.figure(figsize=(7, 5))
 ax = fig.add_subplot(1, 1, 1)
 plot = sns.relplot(x='X3', y='X4', kind='line', hue='condition', col='sample', col_wrap=6, units='sample', aspect=1.6, height=5, estimator=None, facet_kws={'sharey': False, 'sharex': True}, data=dfc)
+count=0
 for ax in plot.axes.flat:
     ax.set_xlabel('Position', size=20)
     ax.set_ylabel('Coverage Depth' , size=20)
     for i, spine in ax.spines.items():
         spine.set_visible(True)
+    ax.text(1000, ax.get_ylim()[1]*0.9, 'Mean depth: '+str(int(dfl[count]['X4'].mean())), size=25, weight='bold')
+    count+=1
 plot.set_titles("{col_name}", pad=2, size=20)
 plot.set(xlim=(0, dfl[0]['X3'].max()))
 plot.set(ylim=(0, None))
